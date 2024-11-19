@@ -21,7 +21,7 @@ namespace KeyLogger.Macros
     /// <summary>
     /// Структура с параметрами записи макросов
     /// </summary>
-    public struct MacrosRecorderOptions
+    public struct MacroRecorderOptions
     {
         /// <summary>
         /// Записывать промежуточное движение мыши (движение мыши между кликами)?
@@ -42,7 +42,7 @@ namespace KeyLogger.Macros
     }
     public class MacroRecorder : IDisposable
     {
-        private MacrosRecorderOptions _options;
+        private MacroRecorderOptions _options;
 
         private Stopwatch _recordStopwatch;
 
@@ -58,26 +58,26 @@ namespace KeyLogger.Macros
             get => _isRecording;
         }
 
-        private Macros _macros;
-        public Macros Macros
+        private Macro _macro;
+        public Macro Macro
         {
-            get => (!_isRecording) ? _macros : null;
+            get => (!_isRecording) ? _macro : null;
         }
 
         public MacroRecorder(ref InputHooker hooker) 
         {
             _hooker = hooker;
-            _macros = new Macros();
+            _macro = new Macro();
             _recordStopwatch = new Stopwatch();
         }
 
-        public void BeginRecording(MacrosRecorderOptions options)
+        public void BeginRecording(MacroRecorderOptions options)
         {
             if (!_isRecording)
             {
                 _options = options;
 
-                _macros.MacrosElements.Clear();
+                _macro.MacroElements.Clear();
                 _hooker.MouseInput += OnMouseInputGiven;
                 _hooker.KeyInput += OnKeyboardInputGiver;
 
@@ -116,16 +116,16 @@ namespace KeyLogger.Macros
                         if (_options.SaveDelayBetweenActions)
                         {
                             // добавляем действие - ожидание
-                            _macros.MacrosElements.Add(new WaitTimeMacrosElement(elapsed));
+                            _macro.MacroElements.Add(new WaitTimeMacroElement(elapsed));
                         }
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, false, MouseButton.NOTHING, true, true, data.X, data.Y));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, false, MouseButton.NOTHING, true, true, data.X, data.Y));
                         if (!_options.SaveDelayBetweenActions)
                         {
                             // и если дефолтный интервал больше 0
                             if (_options.DefaultDelay > 0)
                             {
                                 // добавляем действие - ожидание
-                                _macros.MacrosElements.Add(new WaitTimeMacrosElement(_options.DefaultDelay));
+                                _macro.MacroElements.Add(new WaitTimeMacroElement(_options.DefaultDelay));
                             }
                         }
                     }
@@ -139,34 +139,34 @@ namespace KeyLogger.Macros
                 if (_options.SaveDelayBetweenActions)
                 {
                     // добавляем действие - ожидание
-                    _macros.MacrosElements.Add(new WaitTimeMacrosElement(elapsed));
+                    _macro.MacroElements.Add(new WaitTimeMacroElement(elapsed));
                 }
                 // Добавляем действие в зависимости от типа действия пользователя
                 switch ((WM)args.wParam)
                 {
                     case WM.LBUTTONDOWN:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(true, false, MouseButton.LMB, true, true, data.X, data.Y));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(true, false, MouseButton.LMB, true, true, data.X, data.Y));
                         break;
                     case WM.LBUTTONUP:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, true, MouseButton.LMB, true, true, data.X, data.Y));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, true, MouseButton.LMB, true, true, data.X, data.Y));
                         break;
                     case WM.MOUSEWHEEL:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, false, MouseButton.WHEEL, true, true, data.X, data.Y, 0, (int)((short)(data.MouseData >> 16))));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, false, MouseButton.WHEEL, true, true, data.X, data.Y, 0, (int)((short)(data.MouseData >> 16))));
                         break;
                     case WM.MOUSEHWHEEL:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, false, MouseButton.HWHEEL, true, true, data.X, data.Y, 0, (int)((short)(data.MouseData >> 16))));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, false, MouseButton.HWHEEL, true, true, data.X, data.Y, 0, (int)((short)(data.MouseData >> 16))));
                         break;
                     case WM.RBUTTONDOWN:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(true, false, MouseButton.RMB, true, true, data.X, data.Y));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(true, false, MouseButton.RMB, true, true, data.X, data.Y));
                         break;
                     case WM.RBUTTONUP:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, true, MouseButton.RMB, true, true, data.X, data.Y));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, true, MouseButton.RMB, true, true, data.X, data.Y));
                         break;
                     case WM.XBUTTONDOWN:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(true, false, MouseButton.XMB, true, true, data.X, data.Y, (int)data.MouseData));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(true, false, MouseButton.XMB, true, true, data.X, data.Y, (int)data.MouseData));
                         break;
                     case WM.XBUTTONUP:
-                        _macros.MacrosElements.Add(new MouseEventMacrosElement(false, true, MouseButton.XMB, true, true, data.X, data.Y, (int)data.MouseData));
+                        _macro.MacroElements.Add(new MouseEventMacroElement(false, true, MouseButton.XMB, true, true, data.X, data.Y, (int)data.MouseData));
                         break;
                 }
                 // Если в настройках указано НЕ сохранять интервал между действиями
@@ -176,7 +176,7 @@ namespace KeyLogger.Macros
                     if (_options.DefaultDelay > 0)
                     {
                         // добавляем действие - ожидание
-                        _macros.MacrosElements.Add(new WaitTimeMacrosElement(_options.DefaultDelay));
+                        _macro.MacroElements.Add(new WaitTimeMacroElement(_options.DefaultDelay));
                     }
                 }
             }
@@ -195,14 +195,14 @@ namespace KeyLogger.Macros
             if (_options.SaveDelayBetweenActions)
             {
                 // добавляем действие - ожидание
-                _macros.MacrosElements.Add(new WaitTimeMacrosElement(elapsed));
+                _macro.MacroElements.Add(new WaitTimeMacroElement(elapsed));
             }
             bool keyDown = false;
             if ((WM)args.wParam == WM.KEYDOWN || (WM)args.wParam == WM.SYSKEYDOWN)
                 keyDown = true;
 
             // Добавляем действие
-            _macros.MacrosElements.Add(new KeyboardEventMacrosElement(new KeyInputData[] { new KeyInputData() { KeyCode = (ushort)data.VkCode, KeyEventType = KeyEventType.VIRTUAL_KEY } }, keyDown, !keyDown));
+            _macro.MacroElements.Add(new KeyboardEventMacroElement(new KeyInputData[] { new KeyInputData() { KeyCode = (ushort)data.VkCode, KeyEventType = KeyEventType.VIRTUAL_KEY } }, keyDown, !keyDown));
 
             // Если в настройках указано НЕ сохранять интервал между действиями
             if (!_options.SaveDelayBetweenActions)
@@ -211,7 +211,7 @@ namespace KeyLogger.Macros
                 if (_options.DefaultDelay > 0)
                 {
                     // добавляем действие - ожидание
-                    _macros.MacrosElements.Add(new WaitTimeMacrosElement(_options.DefaultDelay));
+                    _macro.MacroElements.Add(new WaitTimeMacroElement(_options.DefaultDelay));
                 }
             }
         }
@@ -227,12 +227,12 @@ namespace KeyLogger.Macros
 
 
     [Serializable]
-    public class MacrosRecorderException : Exception
+    public class MacroRecorderException : Exception
     {
-        public MacrosRecorderException() { }
-        public MacrosRecorderException(string message) : base(message) { }
-        public MacrosRecorderException(string message, Exception inner) : base(message, inner) { }
-        protected MacrosRecorderException(
+        public MacroRecorderException() { }
+        public MacroRecorderException(string message) : base(message) { }
+        public MacroRecorderException(string message, Exception inner) : base(message, inner) { }
+        protected MacroRecorderException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }

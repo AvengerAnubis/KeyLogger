@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\Binding.cs" />
+    <Compile Include="Bindings\BindingsPlayer.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Macros\Macro.cs" />
     <Compile Include="Macros\MacroElement.cs" />

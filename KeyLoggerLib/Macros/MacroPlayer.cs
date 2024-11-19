@@ -26,6 +26,11 @@ namespace KeyLogger.Macros
     public class MacroPlayer
     {
         private bool _isRunning = false;
+        public bool IsRunning
+        {
+            get => _isRunning;
+        }
+
         private Stack<IndexCondition> _returnIndexes;
 
         public void PushIndexCondition(int index, long conditionNumber)
@@ -41,14 +46,14 @@ namespace KeyLogger.Macros
             }
             else
             {
-                throw new MacrosPlayerException("Ошибка исполнения макроса: попытка получить индекс возврата из пустого стэка\n(Вероятно, элемент макроса \"Конец цикла\" неверно закрывает цикл!");
+                throw new MacroPlayerException("Ошибка исполнения макроса: попытка получить индекс возврата из пустого стэка\n(Вероятно, элемент макроса \"Конец цикла\" неверно закрывает цикл!");
             }
         }
 
-        private Macros _macros;
-        public ref Macros Macros
+        private Macro _macro;
+        public ref Macro Macro
         {
-            get => ref _macros;
+            get => ref _macro;
         }
 
         private int _currentIndex;
@@ -58,10 +63,10 @@ namespace KeyLogger.Macros
             set => _currentIndex = value;
         }
 
-        public MacroPlayer(Macros macros)
+        public MacroPlayer(Macro macro)
         {
             _returnIndexes = new Stack<IndexCondition>();
-            _macros = macros;
+            _macro = macro;
             _currentIndex = 0;
         }
 
@@ -69,30 +74,30 @@ namespace KeyLogger.Macros
         /// Выполнить макросы в списке асинхронно (без блокировки UI)
         /// </summary>
         /// <returns></returns>
-        public async Task RunMacrosAsync()
+        public async Task RunMacroAsync()
         {
             if (!_isRunning)
             {
                 _isRunning = true;
-                while (_currentIndex < _macros.MacrosElements.Count)
+                while (_currentIndex < _macro.MacroElements.Count)
                 {
-                    await _macros.MacrosElements[_currentIndex].Execute(this);
+                    await _macro.MacroElements[_currentIndex].Execute(this);
                     _currentIndex++;
                 }
                 _isRunning = false;
             }
         }
         /// <summary>
-        /// Выполнить макросы в списке синхронно (возможно блокировка UI)
+        /// Выполнить макросы в списке синхронно (возможна блокировка UI)
         /// </summary>
-        public void RunMacros()
+        public void RunMacro()
         {
             if (!_isRunning)
             {
                 _isRunning = true;
-                while (_currentIndex < _macros.MacrosElements.Count)
+                while (_currentIndex < _macro.MacroElements.Count)
                 {
-                    Task.Run(async () => { await _macros.MacrosElements[_currentIndex].Execute(this); }).Wait();
+                    Task.Run(async () => { await _macro.MacroElements[_currentIndex].Execute(this); }).Wait();
                     _currentIndex++;
                 }
                 _isRunning = false;
@@ -102,12 +107,12 @@ namespace KeyLogger.Macros
 
 
     [Serializable]
-    public class MacrosPlayerException : Exception
+    public class MacroPlayerException : Exception
     {
-        public MacrosPlayerException() { }
-        public MacrosPlayerException(string message) : base(message) { }
-        public MacrosPlayerException(string message, Exception inner) : base(message, inner) { }
-        protected MacrosPlayerException(
+        public MacroPlayerException() { }
+        public MacroPlayerException(string message) : base(message) { }
+        public MacroPlayerException(string message, Exception inner) : base(message, inner) { }
+        protected MacroPlayerException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }

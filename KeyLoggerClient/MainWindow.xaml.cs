@@ -13,8 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static KeyLogger.Constants;
-using static KeyLogger.WinAPIFunctions;
+
+using KeyLogger.Utils;
+using KeyLogger.Macros;
+using static KeyLogger.Utils.Constants;
+using static KeyLogger.Utils.WinAPIFunctions;
 
 namespace KeyLogger
 {

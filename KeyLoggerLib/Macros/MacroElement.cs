@@ -28,7 +28,7 @@ namespace KeyLogger.Macros
 	/// <summary>
 	/// Тип макроса
 	/// </summary>
-	public enum MacrosType : byte
+	public enum MacroType : byte
 	{
 		KEYBOARD_EVENT,
 		MOUSE_EVENT,
@@ -48,10 +48,10 @@ namespace KeyLogger.Macros
 			get => action;
 		}
 
-		protected MacrosType macrosType;
-		public MacrosType MacrosType
+		protected MacroType macroType;
+		public MacroType MacroType
 		{
-			get => macrosType;
+			get => macroType;
 		}
 
 		public MacroElement()
@@ -67,26 +67,26 @@ namespace KeyLogger.Macros
 
 		public override string ToString() => StringRepresentation;
 
-		public static MacroElement CreateFromJson(JsonElement macrosJsonData)
+		public static MacroElement CreateFromJson(JsonElement macroJsonData)
 		{
-			byte macrosType = macrosJsonData.GetProperty("type").GetByte();
+			byte macroType = macroJsonData.GetProperty("type").GetByte();
 
-			switch (macrosType)
+			switch (macroType)
 			{
-				case (byte)MacrosType.KEYBOARD_EVENT:
-					return new KeyboardEventMacrosElement(macrosJsonData);
-				case (byte)MacrosType.MOUSE_EVENT:
-					return new MouseEventMacrosElement(macrosJsonData);
-				case (byte)MacrosType.WAITTIME:
-					return new WaitTimeMacrosElement(macrosJsonData);
-				case (byte)MacrosType.WAIT_TILL_KEY:
-                    throw new InvalidMacrosTokenException("Макрос такого типа еще не поддерживается: " + macrosType);
-                case (byte)MacrosType.LOOP:
-					return new LoopMacrosElement(macrosJsonData);
-				case (byte)MacrosType.END_OF_LOOP:
-					return new EndOfLoopMacrosElement(macrosJsonData);
+				case (byte)MacroType.KEYBOARD_EVENT:
+					return new KeyboardEventMacroElement(macroJsonData);
+				case (byte)MacroType.MOUSE_EVENT:
+					return new MouseEventMacroElement(macroJsonData);
+				case (byte)MacroType.WAITTIME:
+					return new WaitTimeMacroElement(macroJsonData);
+				case (byte)MacroType.WAIT_TILL_KEY:
+                    throw new InvalidMacroTokenException("Макрос такого типа еще не поддерживается: " + macroType);
+                case (byte)MacroType.LOOP:
+					return new LoopMacroElement(macroJsonData);
+				case (byte)MacroType.END_OF_LOOP:
+					return new EndOfLoopMacroElement(macroJsonData);
 				default:
-					throw new InvalidMacrosTokenException("Неизвестный тип макроса: " + macrosType);
+					throw new InvalidMacroTokenException("Неизвестный тип макроса: " + macroType);
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace KeyLogger.Macros
 		public ushort KeyCode;
 		public KeyEventType KeyEventType;
 	}
-	public class KeyboardEventMacrosElement : MacroElement
+	public class KeyboardEventMacroElement : MacroElement
 	{
 		private KeyInputData[] _keys;
 
@@ -150,7 +150,7 @@ namespace KeyLogger.Macros
 			get => ((_doKeyDown) ? "D" : "") + ((_doKeyUp) ? "U" : "");
 		}
 
-		public KeyboardEventMacrosElement(ushort[] keyCodes, KeyEventType[] keyTypes, bool doKeyDown, bool doKeyUp)
+		public KeyboardEventMacroElement(ushort[] keyCodes, KeyEventType[] keyTypes, bool doKeyDown, bool doKeyUp)
 		{
 			KeyInputData[] keys = new KeyInputData[keyCodes.Length];
 			for (int i = 0; i < keys.Length; i++)
@@ -160,11 +160,11 @@ namespace KeyLogger.Macros
 
 			Initialize(keys, doKeyDown, doKeyUp);
 		}
-        public KeyboardEventMacrosElement(KeyInputData[] keys, bool doKeyDown, bool doKeyUp) => Initialize(keys, doKeyDown, doKeyUp);
+        public KeyboardEventMacroElement(KeyInputData[] keys, bool doKeyDown, bool doKeyUp) => Initialize(keys, doKeyDown, doKeyUp);
 
         private void Initialize(KeyInputData[] keyInputs, bool doKeyDown, bool doKeyUp)
 		{
-			macrosType = MacrosType.KEYBOARD_EVENT;
+            macroType = MacroType.KEYBOARD_EVENT;
 			_keys = keyInputs;
 			_doKeyDown = doKeyDown;
 			_doKeyUp = doKeyUp;
@@ -303,7 +303,7 @@ namespace KeyLogger.Macros
 			};
 		}
 
-		public KeyboardEventMacrosElement(JsonElement macrosJsonData)
+		public KeyboardEventMacroElement(JsonElement macroJsonData)
 		{
 			try
 			{
@@ -318,8 +318,8 @@ namespace KeyLogger.Macros
 					}
 				 */
 				bool doKeyDown = false, doKeyUp = false;
-				string inputFlags = macrosJsonData.GetProperty("flags").GetString();
-				JsonElement.ArrayEnumerator keysJsonData = macrosJsonData.GetProperty("keys").EnumerateArray();
+				string inputFlags = macroJsonData.GetProperty("flags").GetString();
+				JsonElement.ArrayEnumerator keysJsonData = macroJsonData.GetProperty("keys").EnumerateArray();
 				ushort[] keyCodes = keysJsonData.Select((el) => el.GetProperty("keyCode").GetUInt16()).ToArray();
 				KeyEventType[] keyTypes = (keysJsonData.Select((el) => (KeyEventType)el.GetProperty("keyEventType").GetByte()).ToArray());
                 if (inputFlags == "DU")
@@ -337,7 +337,7 @@ namespace KeyLogger.Macros
                 }
 				else
 				{
-					throw new InvalidMacrosTokenException("Некорректное значение атрибута Flags (ожидалось одно из: DU, U, D");
+					throw new InvalidMacroTokenException("Некорректное значение атрибута Flags (ожидалось одно из: DU, U, D");
 				}
 
                 KeyInputData[] keys = new KeyInputData[keyCodes.Length];
@@ -354,13 +354,13 @@ namespace KeyLogger.Macros
             }
 			catch (Exception ex)
 			{
-				throw new InvalidMacrosTokenException("Ошибка загрузки файла макроса:\n" + ex.Message);
+				throw new InvalidMacroTokenException("Ошибка загрузки файла макроса:\n" + ex.Message);
 			}
 		}
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {
 			writer.WriteStartObject();
-			writer.WriteNumber("type", (byte)macrosType);
+			writer.WriteNumber("type", (byte)macroType);
 			writer.WriteString("flags", InputFlags);
 			writer.WritePropertyName("keys");
 			writer.WriteStartArray();
@@ -386,7 +386,7 @@ namespace KeyLogger.Macros
 		WHEEL = 0x0800,
 		HWHEEL = 0x2000,
 	}
-	public class MouseEventMacrosElement : MacroElement
+	public class MouseEventMacroElement : MacroElement
 	{
 		private INPUT[][] _inputs = new INPUT[2][];
 
@@ -455,8 +455,8 @@ namespace KeyLogger.Macros
 			get => ((_doKeyDown) ? "D" : "") + ((_doKeyUp) ? "U" : "");
 		}
 
-		public MouseEventMacrosElement(bool doKeyDown, bool doKeyUp, MouseButton buttonPressed, bool doMove, bool isAbsolutePositioning, int x, int y, int xmbButtonNumber = 0, int mouseWheelMove = 0) => Initialize( doKeyDown, doKeyUp, buttonPressed, doMove, isAbsolutePositioning, x, y, xmbButtonNumber, mouseWheelMove);
-		public MouseEventMacrosElement(string flags, MouseButton buttonPressed, bool doMove, bool isAbsolutePositioning, int x, int y, int xmbButtonNumber = 0, int mouseWheelMove = 0)
+		public MouseEventMacroElement(bool doKeyDown, bool doKeyUp, MouseButton buttonPressed, bool doMove, bool isAbsolutePositioning, int x, int y, int xmbButtonNumber = 0, int mouseWheelMove = 0) => Initialize( doKeyDown, doKeyUp, buttonPressed, doMove, isAbsolutePositioning, x, y, xmbButtonNumber, mouseWheelMove);
+		public MouseEventMacroElement(string flags, MouseButton buttonPressed, bool doMove, bool isAbsolutePositioning, int x, int y, int xmbButtonNumber = 0, int mouseWheelMove = 0)
 		{
 			bool doKeyDown = false, doKeyUp = false;
 			switch (flags)
@@ -481,7 +481,7 @@ namespace KeyLogger.Macros
 
 		private void Initialize(bool doKeyDown, bool doKeyUp, MouseButton buttonPressed, bool doMove, bool isAbsolutePositioning, int x, int y, int xmbButtonNumber = 0, int mouseWheelMove = 0)
 		{
-			macrosType = MacrosType.MOUSE_EVENT;
+            macroType = MacroType.MOUSE_EVENT;
 			_inputs[0] = new INPUT[1];
 			_inputs[1] = new INPUT[1];
 			_buttonPressed = buttonPressed;
@@ -640,7 +640,7 @@ namespace KeyLogger.Macros
 			_screenY = null;
 		}
 
-		public MouseEventMacrosElement(JsonElement macrosJsonData)
+		public MouseEventMacroElement(JsonElement macroJsonData)
 		{
 			bool doKeyDown = false, doKeyUp = false;
 			MouseButton buttonPressed;
@@ -652,7 +652,7 @@ namespace KeyLogger.Macros
 
 			try
 			{
-				string flags = macrosJsonData.GetProperty("flags").GetString();
+				string flags = macroJsonData.GetProperty("flags").GetString();
                 switch (flags)
                 {
                     case "":
@@ -670,27 +670,27 @@ namespace KeyLogger.Macros
                     default:
                         throw new ArgumentException("Аргумент flags должен быть одним из следующих: U, D, DU, *пустая строка*");
                 }
-                buttonPressed = (MouseButton)macrosJsonData.GetProperty("buttonPressed").GetUInt32();
-				doMove = macrosJsonData.GetProperty("doMove").GetBoolean();
-				isAbsolutePositioning = macrosJsonData.GetProperty("isAbsolutePositioning").GetBoolean();
-				x = macrosJsonData.GetProperty("x").GetInt32();
-				y = macrosJsonData.GetProperty("y").GetInt32();
-				xmbButtonNumber = macrosJsonData.GetProperty("xmbButtonNumber").GetInt32();
-				mouseWheelMove = macrosJsonData.GetProperty("mouseWheelMove").GetInt32();
+                buttonPressed = (MouseButton)macroJsonData.GetProperty("buttonPressed").GetUInt32();
+				doMove = macroJsonData.GetProperty("doMove").GetBoolean();
+				isAbsolutePositioning = macroJsonData.GetProperty("isAbsolutePositioning").GetBoolean();
+				x = macroJsonData.GetProperty("x").GetInt32();
+				y = macroJsonData.GetProperty("y").GetInt32();
+				xmbButtonNumber = macroJsonData.GetProperty("xmbButtonNumber").GetInt32();
+				mouseWheelMove = macroJsonData.GetProperty("mouseWheelMove").GetInt32();
 
 
                 Initialize(doKeyDown, doKeyUp, buttonPressed, doMove, isAbsolutePositioning, x, y, xmbButtonNumber, mouseWheelMove);
             }
 			catch (Exception ex)
 			{
-				throw new InvalidMacrosTokenException("Ошибка загрузки файла макроса:\n" + ex.Message);
+				throw new InvalidMacroTokenException("Ошибка загрузки файла макроса:\n" + ex.Message);
 			}
         }
 
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-			writer.WriteNumber("type", (byte)MacrosType);
+			writer.WriteNumber("type", (byte)MacroType);
             writer.WriteString("flags", InputFlags);
 			writer.WriteNumber("buttonPressed", (uint)_buttonPressed);
 			writer.WriteBoolean("doMove", _doMove);
@@ -702,7 +702,7 @@ namespace KeyLogger.Macros
             writer.WriteEndObject();
         }
     }
-	public class WaitTimeMacrosElement : MacroElement
+	public class WaitTimeMacroElement : MacroElement
 	{
 		private long _msToWait;
 		public long MsToWait
@@ -711,30 +711,30 @@ namespace KeyLogger.Macros
 			set => _msToWait = value;
 		}
 
-		public WaitTimeMacrosElement(long msToWait)
+		public WaitTimeMacroElement(long msToWait)
 		{
 			_msToWait = msToWait;
-			macrosType = MacrosType.WAITTIME;
+            macroType = MacroType.WAITTIME;
 			stringRepresentationFunc = () => $"Подождать {_msToWait} мс.";
 			action = async (player) => await Task.Delay(TimeSpan.FromMilliseconds(msToWait));
 		}
 
-		public WaitTimeMacrosElement(JsonElement macrosJsonData)
+		public WaitTimeMacroElement(JsonElement macroJsonData)
 		{
-			_msToWait = macrosJsonData.GetProperty("msToWait").GetInt64();
-            macrosType = MacrosType.WAITTIME;
+			_msToWait = macroJsonData.GetProperty("msToWait").GetInt64();
+            macroType = MacroType.WAITTIME;
             stringRepresentationFunc = () => $"Подождать {_msToWait} мс.";
             action = async (player) => await Task.Delay(TimeSpan.FromMilliseconds(_msToWait));
         }
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            writer.WriteNumber("type", (byte)macrosType);
+            writer.WriteNumber("type", (byte)macroType);
             writer.WriteNumber("msToWait", _msToWait);
             writer.WriteEndObject();
         }
     }
-	public class LoopMacrosElement : MacroElement
+	public class LoopMacroElement : MacroElement
 	{
 		private long _condition;
 		public long Condition
@@ -742,9 +742,9 @@ namespace KeyLogger.Macros
 			get => _condition;
 			set => _condition = value;
 		}
-		public LoopMacrosElement(long condition)
+		public LoopMacroElement(long condition)
 		{
-			macrosType = MacrosType.LOOP;
+            macroType = MacroType.LOOP;
 			_condition = condition;
 			stringRepresentationFunc = () => $"Повторить {_condition} раз";
 			action = async (player) =>
@@ -752,10 +752,10 @@ namespace KeyLogger.Macros
 				player.PushIndexCondition(player.CurrentIndex, _condition);
 			};
 		}
-		public LoopMacrosElement(JsonElement macrosJsonData)
+		public LoopMacroElement(JsonElement macroJsonData)
 		{
-			_condition = macrosJsonData.GetProperty("condition").GetInt64();
-            macrosType = MacrosType.LOOP;
+			_condition = macroJsonData.GetProperty("condition").GetInt64();
+            macroType = MacroType.LOOP;
             stringRepresentationFunc = () => $"Повторить {_condition} раз";
             action = async (player) =>
             {
@@ -766,16 +766,16 @@ namespace KeyLogger.Macros
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            writer.WriteNumber("type", (byte)macrosType);
+            writer.WriteNumber("type", (byte)macroType);
 			writer.WriteNumber("condition", _condition);
             writer.WriteEndObject();
         }
     }
-	public class EndOfLoopMacrosElement : MacroElement
+	public class EndOfLoopMacroElement : MacroElement
 	{
-		public EndOfLoopMacrosElement()
+		public EndOfLoopMacroElement()
 		{
-			macrosType = MacrosType.END_OF_LOOP;
+            macroType = MacroType.END_OF_LOOP;
 			stringRepresentationFunc = () => $"Конец цикла";
 			action = async (player) =>
 			{
@@ -788,9 +788,9 @@ namespace KeyLogger.Macros
 				}
 			};
 		}
-		public EndOfLoopMacrosElement(JsonElement macrosJsonData)
+		public EndOfLoopMacroElement(JsonElement macroJsonData)
 		{
-            macrosType = MacrosType.END_OF_LOOP;
+            macroType = MacroType.END_OF_LOOP;
             stringRepresentationFunc = () => $"Конец цикла";
             action = async (player) =>
             {
@@ -806,18 +806,18 @@ namespace KeyLogger.Macros
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-			writer.WriteNumber("type", (byte)macrosType);
+			writer.WriteNumber("type", (byte)macroType);
 			writer.WriteEndObject();
         }
     }
 
 	[Serializable]
-	public class InvalidMacrosTokenException : Exception
+	public class InvalidMacroTokenException : Exception
 	{
-		public InvalidMacrosTokenException() { }
-		public InvalidMacrosTokenException(string message) : base(message) { }
-		public InvalidMacrosTokenException(string message, Exception inner) : base(message, inner) { }
-		protected InvalidMacrosTokenException(
+		public InvalidMacroTokenException() { }
+		public InvalidMacroTokenException(string message) : base(message) { }
+		public InvalidMacroTokenException(string message, Exception inner) : base(message, inner) { }
+		protected InvalidMacroTokenException(
 		  SerializationInfo info,
 		  StreamingContext context) : base(info, context) { }
 	}

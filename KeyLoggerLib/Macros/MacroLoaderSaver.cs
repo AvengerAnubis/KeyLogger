@@ -31,8 +31,8 @@ namespace KeyLogger.Macros
         /// <param name="macros">Макрос, который будет сохранен в файл</param>
         /// <param name="filepath">Путь и название файла, который необходимо создать/перезаписать</param>
         /// <param name="isRelative">Является ли filepath относительным путем? (рекомендуется true)</param>
-        /// <exception cref="MacrosSaveException"></exception>
-        public static void SaveMacros(Macros macros, string filepath, bool isRelative = true)
+        /// <exception cref="MacroSaveException"></exception>
+        public static void SaveMacros(Macro macro, string filepath, bool isRelative = true)
         {
             try
             {
@@ -43,13 +43,13 @@ namespace KeyLogger.Macros
                 using (FileStream file = new FileStream(filepath, FileMode.Create, FileAccess.Write))
                 {
                     Utf8JsonWriter writer = new Utf8JsonWriter(file);
-                    macros.WriteToJson(ref writer);
+                    macro.WriteToJson(ref writer);
                     writer.Flush();
                 }
             }
             catch (Exception ex)
             {
-                throw new MacrosSaveException("Ошибка сохранения макроса:\n" + ex.Message);
+                throw new MacroSaveException("Ошибка сохранения макроса:\n" + ex.Message);
             }
         }
         /// <summary>
@@ -58,8 +58,8 @@ namespace KeyLogger.Macros
         /// <param name="filepath">Путь к файлу</param>
         /// <param name="isRelative">Является ли filepath относительным путем? (рекомендуется true)</param>
         /// <returns>Макрос</returns>
-        /// <exception cref="MacrosLoadException"></exception>
-        public static Macros LoadMacros(string filepath, bool isRelative = true)
+        /// <exception cref="MacroLoadException"></exception>
+        public static Macro LoadMacro(string filepath, bool isRelative = true)
         {
             try
             {
@@ -69,12 +69,12 @@ namespace KeyLogger.Macros
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Open, FileAccess.Read))
                 {
-                    return new Macros(JsonDocument.Parse(file));
+                    return new Macro(JsonDocument.Parse(file));
                 }
             }
             catch (Exception ex)
             {
-                throw new MacrosLoadException("Ошибка загрузки макроса:\n" + ex.Message);
+                throw new MacroLoadException("Ошибка загрузки макроса:\n" + ex.Message);
             }
         }
         /// <summary>
@@ -82,29 +82,29 @@ namespace KeyLogger.Macros
         /// Рекомендуется брать названия файлов из этого метода
         /// </summary>
         /// <returns>Названия/пути ко всем файлам</returns>
-        public static string[] GetAllMacroses() => Directory.EnumerateFiles(Path.GetFullPath(PathOfJsonFiles)).ToArray();
+        public static string[] GetAllMacros() => Directory.EnumerateFiles(Path.GetFullPath(PathOfJsonFiles)).ToArray();
     }
 
 
     [Serializable]
-    public class MacrosLoadException : Exception
+    public class MacroLoadException : Exception
     {
-        public MacrosLoadException() { }
-        public MacrosLoadException(string message) : base(message) { }
-        public MacrosLoadException(string message, Exception inner) : base(message, inner) { }
-        protected MacrosLoadException(
+        public MacroLoadException() { }
+        public MacroLoadException(string message) : base(message) { }
+        public MacroLoadException(string message, Exception inner) : base(message, inner) { }
+        protected MacroLoadException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 
 
     [Serializable]
-    public class MacrosSaveException : Exception
+    public class MacroSaveException : Exception
     {
-        public MacrosSaveException() { }
-        public MacrosSaveException(string message) : base(message) { }
-        public MacrosSaveException(string message, Exception inner) : base(message, inner) { }
-        protected MacrosSaveException(
+        public MacroSaveException() { }
+        public MacroSaveException(string message) : base(message) { }
+        public MacroSaveException(string message, Exception inner) : base(message, inner) { }
+        protected MacroSaveException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
