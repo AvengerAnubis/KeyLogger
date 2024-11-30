@@ -23,7 +23,7 @@ namespace KeyLogger.Macros
     /// </summary>
     public static class MacroLoaderSaver
     {
-        public static string PathOfJsonFiles = "macros";
+        public static string PathOfMacros = "macros";
 
         /// <summary>
         /// Сохранить макрос в файл
@@ -38,7 +38,7 @@ namespace KeyLogger.Macros
             {
                 if (isRelative)
                 {
-                    filepath = Path.GetFullPath(PathOfJsonFiles + "\\" + filepath);
+                    filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Create, FileAccess.Write))
                 {
@@ -65,7 +65,7 @@ namespace KeyLogger.Macros
             {
                 if (isRelative)
                 {
-                    filepath = Path.GetFullPath(PathOfJsonFiles + "\\" + filepath);
+                    filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Open, FileAccess.Read))
                 {
@@ -82,7 +82,7 @@ namespace KeyLogger.Macros
         /// Рекомендуется брать названия файлов из этого метода
         /// </summary>
         /// <returns>Названия/пути ко всем файлам</returns>
-        public static string[] GetAllMacros() => Directory.EnumerateFiles(Path.GetFullPath(PathOfJsonFiles)).ToArray();
+        public static string[] GetAllMacros() => Directory.EnumerateFiles(Path.GetFullPath(PathOfMacros)).ToArray();
     }
 
 

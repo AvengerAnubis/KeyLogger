@@ -84,6 +84,7 @@ namespace KeyLogger.Macros
                     await _macro.MacroElements[_currentIndex].Execute(this);
                     _currentIndex++;
                 }
+                _currentIndex = 0;
                 _isRunning = false;
             }
         }
@@ -100,6 +101,7 @@ namespace KeyLogger.Macros
                     Task.Run(async () => { await _macro.MacroElements[_currentIndex].Execute(this); }).Wait();
                     _currentIndex++;
                 }
+                _currentIndex = 0;
                 _isRunning = false;
             }
         }

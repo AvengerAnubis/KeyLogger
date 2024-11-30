@@ -154,7 +154,7 @@ namespace KeyLogger.Utils
 			NCPAINT = 0x0085,
 			NCRBUTTONDBLCLK = 0x00A6,
 			NCRBUTTONDOWN = 0x00A4,
-			NCRBUTTONUP = 0x00A5,
+            NCRBUTTONUP = 0x00A5,
 			NCXBUTTONDBLCLK = 0x00AD,
 			NCXBUTTONDOWN = 0x00AB,
 			NCXBUTTONUP = 0x00AC,
@@ -296,8 +296,8 @@ namespace KeyLogger.Utils
 		/// <summary>
 		/// VK (Virtual Key) константы
 		/// </summary>
-		public enum VK : UInt16
-		{
+		public enum VK : ushort
+        {
             // оставляем префикс VK, т.к. есть названия клавиш, состоящие только из цифр
             VK_LBUTTON = 0x01,
             VK_RBUTTON = 0x02,

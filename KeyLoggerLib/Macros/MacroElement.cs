@@ -21,6 +21,7 @@ using KeyLogger.Macros;
 #region статичные юзинги
 using static KeyLogger.Utils.WinAPIFunctions;
 using static KeyLogger.Utils.Constants;
+using System.Net.Http;
 #endregion
 
 namespace KeyLogger.Macros
@@ -702,6 +703,7 @@ namespace KeyLogger.Macros
             writer.WriteEndObject();
         }
     }
+
 	public class WaitTimeMacroElement : MacroElement
 	{
 		private long _msToWait;
