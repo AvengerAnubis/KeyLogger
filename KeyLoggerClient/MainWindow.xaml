@@ -4,9 +4,142 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyLogger"
+        xmlns:uc="clr-namespace:KeyLogger.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="520" MinWidth="840"
+        Height="520" Width="840">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="240"/>
+        </Grid.RowDefinitions>
+        <Frame x:Name="mainFrame"/>
+        <Grid Grid.Row="1" Width="840">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="180"/>
+            </Grid.ColumnDefinitions>
+            <Grid Name="keyboardGrid" Grid.Column="0" Margin="14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="1" KeyCode="VK_ESCAPE" Margin="2">ESC</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" KeyCode="VK_F1" Margin="2">F1</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_F2" Margin="2">F2</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_F3" Margin="2">F3</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="4" Grid.ColumnSpan="1" KeyCode="VK_F4" Margin="2">F4</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="5" Grid.ColumnSpan="1" KeyCode="VK_F5" Margin="2">F5</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="6" Grid.ColumnSpan="1" KeyCode="VK_F6" Margin="2">F6</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="7" Grid.ColumnSpan="1" KeyCode="VK_F7" Margin="2">F7</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Grid.ColumnSpan="1" KeyCode="VK_F8" Margin="2">F8</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_F9" Margin="2">F9</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="1" KeyCode="VK_F10" Margin="2">F10</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="11" Grid.ColumnSpan="1" KeyCode="VK_F11" Margin="2">F11</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="1" KeyCode="VK_F12" Margin="2">F12</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="0" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" KeyCode="VK_BACK" Margin="2">BACKSPACE</uc:KeyboardButton>
+
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="1" KeyCode="VK_OEM_3" Margin="2">`</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" KeyCode="VK_1" Margin="2">1</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_2" Margin="2">2</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_3" Margin="2">3</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="4" Grid.ColumnSpan="1" KeyCode="VK_4" Margin="2">4</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="5" Grid.ColumnSpan="1" KeyCode="VK_5" Margin="2">5</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="6" Grid.ColumnSpan="1" KeyCode="VK_6" Margin="2">6</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="7" Grid.ColumnSpan="1" KeyCode="VK_7" Margin="2">7</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="8" Grid.ColumnSpan="1" KeyCode="VK_8" Margin="2">8</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_9" Margin="2">9</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="1" KeyCode="VK_0" Margin="2">0</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="11" Grid.ColumnSpan="1" KeyCode="VK_OEM_MINUS" Margin="2">-</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="1" KeyCode="VK_OEM_PLUS" Margin="2">=</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="1" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" KeyCode="VK_OEM_5" Margin="2">\</uc:KeyboardButton>
+
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="1" KeyCode="VK_TAB" Margin="2">TAB</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" KeyCode="VK_Q" Margin="2">Q</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_W" Margin="2">W</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_E" Margin="2">E</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="4" Grid.ColumnSpan="1" KeyCode="VK_R" Margin="2">R</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="5" Grid.ColumnSpan="1" KeyCode="VK_T" Margin="2">T</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="6" Grid.ColumnSpan="1" KeyCode="VK_Y" Margin="2">Y</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="7" Grid.ColumnSpan="1" KeyCode="VK_U" Margin="2">U</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="8" Grid.ColumnSpan="1" KeyCode="VK_I" Margin="2">I</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_O" Margin="2">O</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="1" KeyCode="VK_P" Margin="2">P</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="11" Grid.ColumnSpan="1" KeyCode="VK_OEM_4" Margin="2">[</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="1" KeyCode="VK_OEM_6" Margin="2">]</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="2" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="2" KeyCode="VK_RETURN" Margin="2">ENTER</uc:KeyboardButton>
+
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="1" KeyCode="VK_CAPITAL" Margin="2">CAPS</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" KeyCode="VK_A" Margin="2">A</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_S" Margin="2">S</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_D" Margin="2">D</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="4" Grid.ColumnSpan="1" KeyCode="VK_F" Margin="2">F</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="5" Grid.ColumnSpan="1" KeyCode="VK_G" Margin="2">G</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="6" Grid.ColumnSpan="1" KeyCode="VK_H" Margin="2">H</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="7" Grid.ColumnSpan="1" KeyCode="VK_J" Margin="2">J</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="8" Grid.ColumnSpan="1" KeyCode="VK_K" Margin="2">K</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_L" Margin="2">L</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="1" KeyCode="VK_OEM_1" Margin="2">;</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="11" Grid.ColumnSpan="1" KeyCode="VK_OEM_7" Margin="2">'</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="3" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="3" KeyCode="VK_RSHIFT" Margin="2">SHIFT</uc:KeyboardButton>
+
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2" KeyCode="VK_LSHIFT" Margin="2">SHIFT</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_Z" Margin="2">Z</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_X" Margin="2">X</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="4" Grid.ColumnSpan="1" KeyCode="VK_C" Margin="2">C</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="5" Grid.ColumnSpan="1" KeyCode="VK_V" Margin="2">V</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="6" Grid.ColumnSpan="1" KeyCode="VK_B" Margin="2">B</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="7" Grid.ColumnSpan="1" KeyCode="VK_N" Margin="2">N</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="8" Grid.ColumnSpan="1" KeyCode="VK_M" Margin="2">M</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_OEM_COMMA" Margin="2">,</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="10" Grid.ColumnSpan="1" KeyCode="VK_OEM_PERIOD" Margin="2">.</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="11" Grid.ColumnSpan="1" KeyCode="VK_OEM_2" Margin="2">/</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="4" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="1" KeyCode="VK_UP" Margin="2">↑</uc:KeyboardButton>
+
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" KeyCode="VK_LCONTROL" Margin="2">CTRL</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="1" KeyCode="VK_LWIN" Margin="2">WIN</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="1" KeyCode="VK_LMENU" Margin="2">ALT</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="5" KeyCode="VK_SPACE" Margin="2">SPACE</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="9" Grid.ColumnSpan="1" KeyCode="VK_RMENU" Margin="2">ALT</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="2" Grid.Column="10" Grid.ColumnSpan="2" KeyCode="VK_RCONTROL" Margin="2">CTRL</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="1" KeyCode="VK_LEFT" Margin="2">←</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="1" KeyCode="VK_DOWN" Margin="2">↓</uc:KeyboardButton>
+                <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="1" Grid.Column="14" Grid.ColumnSpan="1" KeyCode="VK_RIGHT" Margin="2">→</uc:KeyboardButton>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="90"/>
+                </Grid.RowDefinitions>
+                <uc:MouseKeyButton Grid.Column="0" MouseButton="LMB" Margin="16">ЛКМ</uc:MouseKeyButton>
+                <uc:MouseKeyButton Grid.Column="1" MouseButton="RMB" Margin="16">ПКМ</uc:MouseKeyButton>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

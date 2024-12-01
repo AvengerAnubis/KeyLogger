@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -14,104 +16,153 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+#region юзинги для библиотеки
 using KeyLogger.Utils;
 using KeyLogger.Macros;
-using static KeyLogger.Utils.Constants;
+using KeyLogger.Bindings;
+#endregion
+
+#region статичные юзинги
 using static KeyLogger.Utils.WinAPIFunctions;
+using static KeyLogger.Utils.Constants;
+#endregion
+
+using Binding = KeyLogger.Bindings.Binding;
+using KeyLogger.UserControls;
+using KeyLogger.Classes;
+using KeyLogger.Pages;
+using System.ComponentModel;
 
 namespace KeyLogger
 {
 	/// <summary>
 	/// Логика взаимодействия для MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 		bool wasRecorded = false;
+
+		private MacrosEditorPage _macrosEditorPage;
+
+		private KeyboardButton _playstopButton;
 
 		private MacroRecorder _recorder;
 		private InputHooker _interceptKeys;
 
-		public MainWindow()
+		private string[] _allBindingsFiles;
+		public string[] AllBindingsFiles
 		{
-			InitializeComponent();
-			_interceptKeys = new InputHooker();
-			_recorder = new MacroRecorder(ref _interceptKeys);
-			_interceptKeys.KeyInput += InterceptKeys_KeyInput;
-			_interceptKeys.MouseInput += _interceptKeys_MouseInput;
-		}
-
-		private void _interceptKeys_MouseInput(object sender, HookCallbackEventArgs e)
-		{
-			MSLLHOOKSTRUCT keybdInputStruct = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(e.lParam);
-			mLabel1.Content = $"Input type = {Enum.GetName(typeof(WM), (Int32)e.wParam)}";
-			mLabel2.Content = $"X, Y = {keybdInputStruct.X.ToString()}, {keybdInputStruct.Y.ToString()}";
-			mLabel3.Content = $"MouseData = {keybdInputStruct.MouseData.ToString()}";
-			mLabel4.Content = $"Flags = {keybdInputStruct.Flags.ToString()}";
-			mLabel5.Content = $"Time = {keybdInputStruct.Time.ToString()}";
-		}
-
-		private void InterceptKeys_KeyInput(object sender, HookCallbackEventArgs e)
-		{
-			KBDLLHOOKSTRUCT keybdInputStruct = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(e.lParam);
-			kbLabel1.Content = $"Input type = {Enum.GetName(typeof(WM), (Int32)e.wParam)}";
-			kbLabel2.Content = $"VkCode = {Enum.GetName(typeof(VK), keybdInputStruct.VkCode)}";
-			kbLabel3.Content = $"ScanCode = {keybdInputStruct.ScanCode.ToString()}";
-			kbLabel4.Content = $"Flags = {keybdInputStruct.Flags.ToString()}";
-			kbLabel5.Content = $"Time = {keybdInputStruct.Time.ToString()}";
-		}
-		
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			/*
-            KeyEventType[] keys = new KeyEventType[8];
-			VK[] text = new VK[]
+			get
 			{
-				VK.VK_H, VK.VK_F, VK.VK_OEM_COMMA, VK.VK_J, VK.VK_N, VK.VK_F, VK.VK_T, VK.VK_N
-			};
-			
-			for (int i = 0; i < keys.Length; i++)
-			{
-				keys[i] = KeyEventType.VIRTUAL_KEY;
-
+				return _allBindingsFiles;
             }
-			List<MacroElement> macroes = new List<MacroElement>()
+			set
 			{
-				new MouseEventMacroElement("DU", MouseButton.RMB, true, true, 500, 200, 0, 0),
-				new WaitTimeMacroElement(128),
-				new MouseEventMacroElement("DU", MouseButton.LMB, true, true, 550, 360, 0, 0),
-				new WaitTimeMacroElement(128),
-				new MouseEventMacroElement("DU", MouseButton.LMB, true, true, 1000, 360, 0, 0),
-				new WaitTimeMacroElement(128),
-				new KeyboardEventMacroElement(text.Select((el) => (ushort)el).ToArray(), keys, true, true)
-			};
-			Macro macro = new Macro(macroes);
-			*/
-			if (wasRecorded)
-			{
-				return;
+				_allBindingsFiles = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllBindingsFiles"));
 			}
-			if (!_recorder.IsRecording)
+		}
+
+
+        private BindingContainer _bindings;
+		public string CurrentBindingFile
+		{
+			get; private set;
+		}
+
+		public RelayCommand BindMacros
+		{
+			get; set;
+		}
+
+        private string[] _allMacrosFiles;
+
+
+        public string[] AllMacrosFiles
+		{
+			get
 			{
-                _recorder.BeginRecording(new MacroRecorderOptions()
-                {
-                    SaveDelayBetweenActions = true,
-                    MouseMovementRecordingInterval = 25,
-                    RecordIntermediateMouseMovement = true
-                });
-            }
-            else
-            {
-                wasRecorded = true;
-                _recorder.EndRecording();
-				Task.Run(async () =>
-				{
-					await Task.Delay(1500);
-					MacroPlayer player = new MacroPlayer(_recorder.Macro);
-					player.RunMacro();
-					await Task.Delay(1000);
-					MacroLoaderSaver.SaveMacro(_recorder.Macro, "C:\\Users\\Admen\\Desktop\\macro.json", false);
-				});
+				return _allMacrosFiles;
+			}
+			set
+			{
+				_allMacrosFiles = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllMacrosFiles"));
             }
         }
-	}
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public MainWindow()
+		{
+			InitializeComponent();
+			this.DataContext = this;
+            BindMacros = new RelayCommand((macroPath) =>
+			{
+
+			});
+            _interceptKeys = new InputHooker();
+
+            _interceptKeys.KeyInput += _interceptKeys_KeyInput;
+
+			foreach (KeyboardButton button in keyboardGrid.Children) 
+			{
+				button.InputHooker = _interceptKeys;
+				button.PressedColor = Colors.Red;
+				button.UnpressedColor = Colors.Green;
+			}
+
+			_allMacrosFiles = MacroLoaderSaver.GetAllMacros();
+
+			_allBindingsFiles = BindingLoaderSaver.GetAllBindings();
+
+			if (_allBindingsFiles.Length == 0)
+			{
+                _bindings = new BindingContainer();
+                BindingLoaderSaver.SaveBindings(_bindings, "newProfile.json");
+				CurrentBindingFile = "newProfile";
+            }
+
+            _macrosEditorPage = new MacrosEditorPage() { DataContext = this };
+            _macrosEditorPage.MacrosFilesUpdated += (sender, e) => UpdateMacrosFilesArray();
+            mainFrame.Navigate(_macrosEditorPage);
+        }
+
+		private void UpdateKeyStates()
+		{
+			foreach (Binding binding in _bindings.Bindings)
+			{
+                foreach (KeyboardButton button in keyboardGrid.Children)
+                {
+                    if (button.KeyCode == binding.VkCode)
+					{
+						button.UnpressedColor = Colors.Blue;
+                    }
+                    if (button.KeyCode == binding.VkCode)
+                    {
+                        button.UnpressedColor = Colors.Green;
+                    }
+					button.Background = new SolidColorBrush(button.UnpressedColor);
+                }
+            }
+		}
+
+        private void _interceptKeys_KeyInput(object sender, HookCallbackEventArgs args)
+        {
+			// Получаем структуру из памяти по указателю
+            KBDLLHOOKSTRUCT data = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(args.lParam);
+
+            if (_playstopButton != null)
+			{
+				if (_playstopButton.KeyCode == (VK)data.VkCode)
+				{
+
+				}
+			}
+        }
+
+
+
+		private void UpdateMacrosFilesArray() => _allMacrosFiles = MacroLoaderSaver.GetAllMacros();
+    }
 }

@@ -13,5 +13,6 @@ namespace KeyLogger
     /// </summary>
     public partial class App : Application
     {
+
     }
 }
