@@ -205,7 +205,8 @@ namespace KeyLogger.Macros
 				representation = representation.Remove(representation.Length - 3);
 				return representation;
 			};
-			action = async (player) =>
+            
+            action = async (player) =>
 			{
                 KEYBDINPUT[] keys = new KEYBDINPUT[_keys.Length];
                 for (int i = 0; i < _keys.Length; i++)

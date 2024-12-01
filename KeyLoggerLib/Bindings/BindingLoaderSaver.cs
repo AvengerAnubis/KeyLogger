@@ -87,7 +87,15 @@ namespace KeyLogger.Bindings
         /// Рекомендуется брать названия файлов из этого метода
         /// </summary>
         /// <returns>Названия/пути ко всем файлам</returns>
-        public static string[] GetAllBindings() => Directory.EnumerateFiles(Path.GetFullPath(PathOfBindings)).ToArray();
+        public static string[] GetAllBindings()
+        {
+            if (!Directory.Exists(Path.GetFullPath(PathOfBindings)))
+            {
+                Directory.CreateDirectory(Path.GetFullPath(PathOfBindings));
+            }
+            // возрващаем только имена файлов
+            return Directory.EnumerateFiles(Path.GetFullPath(PathOfBindings)).Select(el => Path.GetFileName(el)).ToArray();
+        }
     }
 
 

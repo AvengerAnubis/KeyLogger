@@ -1,5 +1,4 @@
-﻿using KeyLogger.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -79,7 +78,7 @@ namespace KeyLogger.Bindings
 						mouseButton = MouseButton.LMB;
 						break;
 					case WM.LBUTTONUP:
-						isKeyDown = true;
+						isKeyDown = false;
 						mouseButton = MouseButton.LMB;
 						break;
 					case WM.RBUTTONDOWN:

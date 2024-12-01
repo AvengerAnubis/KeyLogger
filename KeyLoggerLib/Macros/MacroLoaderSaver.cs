@@ -78,11 +78,35 @@ namespace KeyLogger.Macros
             }
         }
         /// <summary>
+        /// Удалить макрос из библиотеки макросов
+        /// </summary>
+        /// <param name="filepath">Относительный путь (удаление случайного файла по абсолютному пути не разрешено)</param>
+        public static void DeleteMacro(string filepath)
+        {
+            try
+            {
+                filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
+                File.Delete(filepath);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        /// <summary>
         /// Возвращает все сохраненные файлы макросов
         /// Рекомендуется брать названия файлов из этого метода
         /// </summary>
         /// <returns>Названия/пути ко всем файлам</returns>
-        public static string[] GetAllMacros() => Directory.EnumerateFiles(Path.GetFullPath(PathOfMacros)).ToArray();
+        public static string[] GetAllMacros()
+        {
+            if (!Directory.Exists(Path.GetFullPath(PathOfMacros)))
+            {
+                Directory.CreateDirectory(Path.GetFullPath(PathOfMacros));
+            }
+            // возрващаем только имена файлов
+            return Directory.EnumerateFiles(Path.GetFullPath(PathOfMacros)).Select(el => Path.GetFileName(el)).ToArray();
+        }
     }
 
 
