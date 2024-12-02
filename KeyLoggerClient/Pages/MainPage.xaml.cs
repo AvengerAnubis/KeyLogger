@@ -1,8 +1,10 @@
 ﻿using KeyLogger.Macros;
+using KeyLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -28,6 +30,15 @@ namespace KeyLogger.Pages
         {
             InitializeComponent();
             this.DataContext = MainWindow.Instance;
+            MainWindow.Instance.InterceptKeys.KeyInput += (o, args) =>
+            {
+                KBDLLHOOKSTRUCT data = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(args.lParam);
+
+                if (data.VkCode == (ushort)VK.VK_F1 && args.wParam == (IntPtr)WM.KEYDOWN)
+                {
+                    MainWindow.Instance.StartStopRecording(recordButton, null);
+                }
+            };
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -43,6 +54,11 @@ namespace KeyLogger.Pages
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             MainWindow.Instance.CreateBindingProfile();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Instance.DeleteBindingProfile();
         }
     }
 }

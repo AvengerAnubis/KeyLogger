@@ -55,9 +55,9 @@ namespace KeyLogger
 			else
 			{
 				(sender as Button).Content = "Запуск макросов";
-                _bindingsPlayer.Stop();
-            }
-        }
+				_bindingsPlayer.Stop();
+			}
+		}
 		public void StartStopRecording(object sender, RoutedEventArgs e)
 		{
 			if (!_recorder.IsRecording)
@@ -69,8 +69,8 @@ namespace KeyLogger
 					{
 						_fileRecordTo = RecordingMacroFilename;
 
-                        (sender as Button).Content = "Остановить запись";
-                        uint delay = 32, interval = 250;
+						(sender as Button).Content = "Остановить запись";
+						uint delay = 32, interval = 250;
 						uint.TryParse(DefaultDelay, out delay);
 						uint.TryParse(MouseMovementRecordingInterval, out interval);
 						_recorder.BeginRecording(new MacroRecorderOptions()
@@ -85,13 +85,13 @@ namespace KeyLogger
 			}
 			else
 			{
-                (sender as Button).Content = "Начать запись";
-                _recorder.EndRecording();
+				(sender as Button).Content = "Начать запись";
+				_recorder.EndRecording();
 				MacroLoaderSaver.SaveMacros(_recorder.Macro, _fileRecordTo + ".json");
 				UpdateMacrosFilesArray();
 
-                _recorder.Macro.MacroElements.Clear();
-            }
+				_recorder.Macro.MacroElements.Clear();
+			}
 		}
 
 		public bool SaveDelayBetweenActions { get; set; }
@@ -99,11 +99,11 @@ namespace KeyLogger
 		public string MouseMovementRecordingInterval { get; set; }
 		public string DefaultDelay { get; set; }
 
-        public string RecordingMacroFilename { get; set; }
+		public string RecordingMacroFilename { get; set; }
 		private string _fileRecordTo;
 
 
-        public void BindMacros(object sender, string file)
+		public void BindMacros(object sender, string file)
 		{
 			KeyboardButton button = sender as KeyboardButton;
 			_bindings.Bindings.Add(new Binding(button.KeyCode, file));
@@ -112,7 +112,7 @@ namespace KeyLogger
 		{
 			KeyboardButton button = sender as KeyboardButton;
 			_bindings.Bindings.RemoveAt(_bindings.Bindings.FindIndex((b) => b.VkCode == button.KeyCode && b.MacroPath == file));
-        }
+		}
 		//public void SelectAsPlayStopButton(object sender)
 		//{
 		//	if (sender is KeyboardButton)
@@ -125,7 +125,7 @@ namespace KeyLogger
 		//}
 
 
-        public static MainWindow Instance { get; private set; }
+		public static MainWindow Instance { get; private set; }
 		bool wasRecorded = false;
 
 		private MacrosEditorPage _macrosEditorPage;
@@ -134,6 +134,7 @@ namespace KeyLogger
 
 		private MacroRecorder _recorder;
 		private InputHooker _interceptKeys;
+		public ref InputHooker InterceptKeys {get => ref _interceptKeys; }
 
 		private string[] _allBindingsFiles;
 		public string[] AllBindingsFiles
@@ -150,28 +151,32 @@ namespace KeyLogger
 		}
 
 		private string _selectedBinding;
+		private bool _doSave = true;
 		public string SelectedBinding
 		{
 			get => _selectedBinding;
 			set
 			{
-				if (_selectedBinding != null)
-					BindingLoaderSaver.SaveBindings(_bindings, _selectedBinding);
-				_selectedBinding = value;
-				_bindings = BindingLoaderSaver.LoadBindings(_selectedBinding);
-                foreach (KeyboardButton button in keyboardGrid.Children)
-                {
-                    button.AllBindedMacroses.Clear();
-                    foreach (Binding binding in _bindings.Bindings)
-                    {
-                        if (binding.VkCode == button.KeyCode)
-                        {
-                            button.AllBindedMacroses.Add(binding.MacroPath);
-                        }
-                    }
-                    button.UpdateBinds();
-                }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedBinding"));
+				if (value != null)
+				{
+					if (_selectedBinding != null && _doSave)
+						BindingLoaderSaver.SaveBindings(_bindings, _selectedBinding);
+					_selectedBinding = value;
+					_bindings = BindingLoaderSaver.LoadBindings(_selectedBinding);
+					foreach (KeyboardButton button in keyboardGrid.Children)
+					{
+					    button.AllBindedMacroses.Clear();
+					    foreach (Binding binding in _bindings.Bindings)
+					    {
+					        if (binding.VkCode == button.KeyCode)
+					        {
+					            button.AllBindedMacroses.Add(binding.MacroPath);
+					        }
+					    }
+					    button.UpdateBinds();
+					}
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedBinding"));
+				}
 			}
 
         }
@@ -314,6 +319,7 @@ namespace KeyLogger
 
 				}
 			}
+			
         }
 
 		public void CreateBindingProfile()
@@ -325,7 +331,28 @@ namespace KeyLogger
 				AllBindingsFiles = BindingLoaderSaver.GetAllBindings();
             }
         }
+		public void DeleteBindingProfile()
+		{
+			_doSave = false;
+            BindingLoaderSaver.DeleteBinding(SelectedBinding);
+            AllBindingsFiles = BindingLoaderSaver.GetAllBindings();
+            if (AllBindingsFiles.Length == 0)
+            {
+                BindingLoaderSaver.SaveBindings(new BindingContainer(), "default.json");
+                AllBindingsFiles = BindingLoaderSaver.GetAllBindings();
+            }
+            SelectedBinding = AllBindingsFiles[0];
+			_doSave = true;
+        }
 
 		private void UpdateMacrosFilesArray() => AllMacrosFiles = MacroLoaderSaver.GetAllMacros();
+
+        internal void ChangePressCond(KeyboardButton keyboardButton, object cond)
+        {
+            foreach (Binding binding in _bindings.Bindings.Where(b => b.VkCode == keyboardButton.KeyCode))
+			{
+				binding.PlayCondition = (BindingPlayCondition)Enum.Parse(typeof(BindingPlayCondition), cond.ToString());
+			}
+        }
     }
 }

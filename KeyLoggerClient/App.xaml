@@ -5,13 +5,21 @@
 			 xmlns:uc="clr-namespace:KeyLogger.UserControls"
 			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
+        <Style TargetType="local:MainWindow">
+        </Style>
+        
         <Style TargetType="uc:KeyboardButton">
         </Style>
         <Style TargetType="uc:MouseKeyButton">
             
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="DarkGray"/>
+        </Style>
         <Style TargetType="Button" x:Key="ButtonIcon">
-            
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="DarkGray"/>
         </Style>
         <Style TargetType="Button" x:Key="ButtonTransparent">
 

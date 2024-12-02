@@ -70,6 +70,13 @@ namespace KeyLogger.UserControls
                 UpdateBinds();
             });
         }
+        public RelayCommand ChangePressCond
+        {
+            get => new RelayCommand(cond =>
+            {
+                MainWindow.Instance.ChangePressCond(this, cond);
+            });
+        }
         //public RelayCommand BindSelectAsPlayStopButtonMacros
         //{
         //    get => new RelayCommand(obj =>
@@ -130,6 +137,9 @@ namespace KeyLogger.UserControls
         public KeyboardButton()
         {
             InitializeComponent();
+            menuItem1.DataContext = this;
+            menuItem2.DataContext = this;
+            menuItem3.DataContext = this;
         }
     }
 }

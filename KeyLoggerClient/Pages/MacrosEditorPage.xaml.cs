@@ -26,6 +26,8 @@ using System.Text.RegularExpressions;
 using KeyLogger.Classes;
 using System.ComponentModel;
 using KeyLogger.Pages.MacroElementEditorPages;
+using System.Windows.Markup;
+using System.Runtime.InteropServices;
 #endregion
 
 namespace KeyLogger.Pages
@@ -168,6 +170,8 @@ namespace KeyLogger.Pages
         {
             InitializeComponent();
             macroElementsListBox.Items.Clear();
+            
+
         }
 
         public void SetMacroToEditor(string macroFile)

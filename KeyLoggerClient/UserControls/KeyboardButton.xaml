@@ -24,6 +24,11 @@
                     </DataTemplate>
                 </MenuItem.ItemTemplate>
             </MenuItem>
+            <MenuItem Header="Условие выполнения">
+                <MenuItem Header="Нажатие" x:Name="menuItem1"  Command="{Binding Path=ChangePressCond}" CommandParameter="ONKEYDOWN"/>
+                <MenuItem Header="Удержание" x:Name="menuItem2" Command="{Binding Path=ChangePressCond}" CommandParameter="ONKEYHOLD"/>
+                <MenuItem Header="Отжатие" x:Name="menuItem3" Command="{Binding Path=ChangePressCond}" CommandParameter="ONKEYUP"/>
+            </MenuItem>
 
         </ContextMenu>
     </Button.ContextMenu>

@@ -15,32 +15,37 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="36"/>
+            <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
         <ListBox Name="macrosListBox"  ItemsSource="{Binding AllMacrosFiles, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
+                    <Grid Height="24" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=DeleteMacro}" CommandParameter="{Binding}">
-                            DEL
+                            <Image Source="/Resources/iconminus.png" />
                         </Button>
                         <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=EditMacro}" CommandParameter="{Binding}">
-                            EDIT
+                            <Image Source="/Resources/iconedit.png" />
                         </Button>
-                        <TextBlock Grid.Column="2" Text="{Binding}"/>
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8">
-            <Button Style="{StaticResource ButtonIcon}" Click="AddMacro_Click">add</Button>
-            <TextBox Name="newMacroNameTextBox" Text="NewMacro" Margin="16,0,0,0"/>
-        </StackPanel>
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource ButtonIcon}" Click="AddMacro_Click"><Image Source="/Resources/iconplus.png" />
+</Button>
+            <TextBox Grid.Column="1" Name="newMacroNameTextBox" Text="NewMacro" Margin="16,0,0,0"/>
+        </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
@@ -50,26 +55,28 @@
             <ListBox Grid.Row="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" ItemsSource="{Binding Path=MacroElements, UpdateSourceTrigger=PropertyChanged}" Name="macroElementsListBox">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Height="16">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Path=StringRepresentation}"/>
                             <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=DeleteMacroElement}" CommandParameter="{Binding}">
-                                DEL
+                                <Image Source="/Resources/iconminus.png" />
                             </Button>
                             <Button Grid.Column="2" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=MoveDownMacroElement}" CommandParameter="{Binding}">
-                                V
+                                <Image Source="/Resources/iconarrowdown.png" />
+
                             </Button>
                             <Button Grid.Column="3" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=MoveUpMacroElement}" CommandParameter="{Binding}">
-                                ^
+                                <Image Source="/Resources/iconarrowup.png" />
+
                             </Button>
                             <Button Grid.Column="4" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=EditMacroElement}" CommandParameter="{Binding}">
-                                SET
+                                <Image Source="/Resources/iconedit.png" />
                             </Button>
                             
                         </Grid>
@@ -79,37 +86,41 @@
         </Grid>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="8">
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"  Style="{StaticResource ButtonIcon}" Command="{Binding SaveMacro}">
-                SAVE
+                <Image Source="/Resources/iconsave.png" />
                 <Button.ToolTip>
                     <ToolTip Content="Сохранить макрос"/>
                 </Button.ToolTip>
             </Button>
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="KB" Margin="16,0,0,0">
-                ADD KB
+                <Image Source="/Resources/iconkeybd.png" />
                 <Button.ToolTip>
                     <ToolTip Content="Добавить Действие клавиатуры"/>
                 </Button.ToolTip>
             </Button>
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="MB" Margin="16,0,0,0">
-                ADD MB
+                <Image Source="/Resources/iconmouse.png" />
+
                 <Button.ToolTip>
                     <ToolTip Content="Добавить Действие мыши"/>
                 </Button.ToolTip>
             </Button>
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="WT" Margin="16,0,0,0">
-                ADD WT
+                <Image Source="/Resources/iconwaittime.png" />
+
                 <Button.ToolTip>
                     <ToolTip Content="Добавить Ожидание"/>
                 </Button.ToolTip>
             </Button>
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="LP" Margin="16,0,0,0">
-                ADD LP
+                <Image Source="/Resources/iconloop.png" />
+
                 <Button.ToolTip>
                     <ToolTip Content="Добавить Начало цикла"/>
                 </Button.ToolTip>
             </Button>
             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="ELP"  Margin="16,0,0,0">
-                ADD ELP
+                <Image Source="/Resources/iconend.png" />
+
                 <Button.ToolTip>
                     <ToolTip Content="Добавить Конец цикла"/>
                 </Button.ToolTip>

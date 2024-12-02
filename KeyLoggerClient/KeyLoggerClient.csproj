@@ -196,6 +196,38 @@
       <Name>KeyLoggerLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\iconminus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconplus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconedit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconsave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconkeybd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconmouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconwaittime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconloop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconarrowup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iconarrowdown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
