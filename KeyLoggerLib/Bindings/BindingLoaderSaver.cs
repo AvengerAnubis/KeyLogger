@@ -79,7 +79,23 @@ namespace KeyLogger.Bindings
             }
             catch (Exception ex)
             {
-                throw new BindingLoadException("Ошибка загрузки биндинга:\n" + ex.Message);
+                throw new BindingLoadException("Ошибка загрузки биндинга:" + ex.Message);
+            }
+        }
+        /// <summary>
+        /// Удалить биндинг из библиотеки макросов
+        /// </summary>
+        /// <param name="filepath">Относительный путь (удаление случайного файла по абсолютному пути не разрешено)</param>
+        public static void DeleteBinding(string filepath)
+        {
+            try
+            {
+                filepath = Path.GetFullPath(PathOfBindings + "\\" + filepath);
+                File.Delete(filepath);
+            }
+            catch (Exception ex)
+            {
+                throw new MacroDeleteException("Ошибка удаления макроса:\n" + ex.Message);
             }
         }
         /// <summary>

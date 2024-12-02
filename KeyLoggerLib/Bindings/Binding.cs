@@ -145,26 +145,31 @@ namespace KeyLogger.Bindings
                 {
                     if (isKeyDown)
                     {
-                        if (playCondition == BindingPlayCondition.ONKEYDOWN)
+                        if (!isKeyPressed)
                         {
-                            shouldExecute = true;
-                        }
-                        else if (playCondition == BindingPlayCondition.ONKEYHOLD)
-                        {
-                            cancelSource = new CancellationTokenSource();
-                            CancellationToken token = cancelSource.Token;
-                            holdTask = Task.Run(async () =>
+                            isKeyPressed = true;
+                            if (playCondition == BindingPlayCondition.ONKEYDOWN)
                             {
-                                await Task.Delay(TimeSpan.FromMilliseconds(holdTime));
-                                if (!token.IsCancellationRequested)
+                                shouldExecute = true;
+                            }
+                            else if (playCondition == BindingPlayCondition.ONKEYHOLD)
+                            {
+                                cancelSource = new CancellationTokenSource();
+                                CancellationToken token = cancelSource.Token;
+                                holdTask = Task.Run(async () =>
                                 {
-                                    Execute();
-                                }
-                            }, token);
+                                    await Task.Delay(TimeSpan.FromMilliseconds(holdTime));
+                                    if (!token.IsCancellationRequested)
+                                    {
+                                        Execute();
+                                    }
+                                }, token);
+                            }
                         }
                     }
                     else
                     {
+                        isKeyPressed = false;
                         if (playCondition == BindingPlayCondition.ONKEYUP)
                         {
                             shouldExecute = true;
