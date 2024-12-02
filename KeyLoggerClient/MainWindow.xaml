@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:KeyLogger"
         xmlns:uc="clr-namespace:KeyLogger.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="520" MinWidth="840"
-        Height="520" Width="840">
+        Title="MainWindow" MinHeight="600" MinWidth="860"
+        Height="600" Width="860">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -128,7 +128,7 @@
                 <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="1" KeyCode="VK_DOWN" Margin="2">↓</uc:KeyboardButton>
                 <uc:KeyboardButton Grid.Row="5" Grid.RowSpan="1" Grid.Column="14" Grid.ColumnSpan="1" KeyCode="VK_RIGHT" Margin="2">→</uc:KeyboardButton>
             </Grid>
-            <Grid Grid.Column="1">
+            <Grid x:Name="mouseGrid" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>

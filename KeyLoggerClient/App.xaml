@@ -5,41 +5,10 @@
 			 xmlns:uc="clr-namespace:KeyLogger.UserControls"
 			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
-		<Style TargetType="uc:KeyboardButton">
-			<Setter Property="ContextMenu">
-				<Setter.Value>
-					<ContextMenu>
-                        <!--Выбрать макрос, который будет забинден на клавишу-->
-                        <MenuItem Header="Задать макрос" ItemsSource="{Binding AllMacrosFiles}">
-							<MenuItem.ItemTemplate>
-                                <DataTemplate>
-                                    <MenuItem Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=BindMacros}" CommandParameter="{Binding}" Header="{Binding}"/>
-                                </DataTemplate>
-							</MenuItem.ItemTemplate>
-						</MenuItem>
-                        
-					</ContextMenu>
-				</Setter.Value>
-			</Setter>
-		</Style>
+        <Style TargetType="uc:KeyboardButton">
+        </Style>
         <Style TargetType="uc:MouseKeyButton">
-            <Setter Property="ContextMenu">
-                <Setter.Value>
-                    <ContextMenu>
-                        <!--Выбрать макрос, который будет забинден на клавишу-->
-                        <MenuItem Header="Задать макрос" ItemsSource="{Binding AllMacrosFiles}">
-                            <MenuItem.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <TextBlock Text="{Binding}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </MenuItem.ItemTemplate>
-                        </MenuItem>
-
-                    </ContextMenu>
-                </Setter.Value>
-            </Setter>
+            
         </Style>
         <Style TargetType="Button" x:Key="ButtonIcon">
             

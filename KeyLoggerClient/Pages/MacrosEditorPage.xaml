@@ -39,34 +39,81 @@
         </ListBox>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8">
             <Button Style="{StaticResource ButtonIcon}" Click="AddMacro_Click">add</Button>
-            <TextBox Name="newMacroNameTextBox" Text="NewMacro"/>
+            <TextBox Name="newMacroNameTextBox" Text="NewMacro" Margin="16,0,0,0"/>
         </StackPanel>
-        <ListBox Name="macroElementsListBox" Grid.Column="1">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="{Binding ElementName=macroElementsListBox, Path=Width}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding }" Grid.Column="3"/>
-                        <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DeleteMacro}" CommandParameter="{Binding}">
-                            DEL
-                        </Button>
-                        <Button Grid.Column="2" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DeleteMacro}" CommandParameter="{Binding}">
-                            V
-                        </Button>
-                        <Button Grid.Column="3" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DeleteMacro}" CommandParameter="{Binding}">
-                            ^
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBoxItem>
-                
-            </ListBoxItem>
-        </ListBox>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Content="{Binding SelectedMacroFilepath, UpdateSourceTrigger=PropertyChanged}"/>
+            <ListBox Grid.Row="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" ItemsSource="{Binding Path=MacroElements, UpdateSourceTrigger=PropertyChanged}" Name="macroElementsListBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Path=StringRepresentation}"/>
+                            <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=DeleteMacroElement}" CommandParameter="{Binding}">
+                                DEL
+                            </Button>
+                            <Button Grid.Column="2" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=MoveDownMacroElement}" CommandParameter="{Binding}">
+                                V
+                            </Button>
+                            <Button Grid.Column="3" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=MoveUpMacroElement}" CommandParameter="{Binding}">
+                                ^
+                            </Button>
+                            <Button Grid.Column="4" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=EditMacroElement}" CommandParameter="{Binding}">
+                                SET
+                            </Button>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="8">
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"  Style="{StaticResource ButtonIcon}" Command="{Binding SaveMacro}">
+                SAVE
+                <Button.ToolTip>
+                    <ToolTip Content="Сохранить макрос"/>
+                </Button.ToolTip>
+            </Button>
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="KB" Margin="16,0,0,0">
+                ADD KB
+                <Button.ToolTip>
+                    <ToolTip Content="Добавить Действие клавиатуры"/>
+                </Button.ToolTip>
+            </Button>
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="MB" Margin="16,0,0,0">
+                ADD MB
+                <Button.ToolTip>
+                    <ToolTip Content="Добавить Действие мыши"/>
+                </Button.ToolTip>
+            </Button>
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="WT" Margin="16,0,0,0">
+                ADD WT
+                <Button.ToolTip>
+                    <ToolTip Content="Добавить Ожидание"/>
+                </Button.ToolTip>
+            </Button>
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="LP" Margin="16,0,0,0">
+                ADD LP
+                <Button.ToolTip>
+                    <ToolTip Content="Добавить Начало цикла"/>
+                </Button.ToolTip>
+            </Button>
+            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}" Style="{StaticResource ButtonIcon}" Command="{Binding AddMacroElement}" CommandParameter="ELP"  Margin="16,0,0,0">
+                ADD ELP
+                <Button.ToolTip>
+                    <ToolTip Content="Добавить Конец цикла"/>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

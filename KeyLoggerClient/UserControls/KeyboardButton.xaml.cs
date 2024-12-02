@@ -22,6 +22,8 @@ using KeyLogger.Macros;
 using static KeyLogger.Utils.WinAPIFunctions;
 using static KeyLogger.Utils.Constants;
 using System.Runtime.InteropServices;
+using KeyLogger.Classes;
+using KeyLogger.Bindings;
 #endregion
 
 namespace KeyLogger.UserControls
@@ -37,6 +39,44 @@ namespace KeyLogger.UserControls
             get => keyCode;
             set => keyCode = value;
         }
+
+        public List<string> AllBindedMacroses { get; set; } = new List<string>();
+        public void UpdateBinds()
+        {
+            this.Background = new SolidColorBrush((AllBindedMacroses.Count > 0) ? BindedColor : UnpressedColor);
+            bindedMenuItem.ItemsSource = null;
+            bindedMenuItem.Items.Clear();
+            bindedMenuItem.ItemsSource = AllBindedMacroses;
+        }
+
+        public RelayCommand BindMacros
+        {
+            get => new RelayCommand(file =>
+            {
+                if (!AllBindedMacroses.Contains(file))
+                {
+                    MainWindow.Instance.BindMacros(this, file.ToString());
+                    AllBindedMacroses.Add(file.ToString());
+                    UpdateBinds();
+                }
+            });
+        }
+        public RelayCommand UnbindMacros
+        {
+            get => new RelayCommand(file =>
+            {
+                MainWindow.Instance.UnbindMacros(this, file.ToString());
+                AllBindedMacroses.Remove(file.ToString());
+                UpdateBinds();
+            });
+        }
+        //public RelayCommand BindSelectAsPlayStopButtonMacros
+        //{
+        //    get => new RelayCommand(obj =>
+        //    {
+        //        MainWindow.Instance.SelectAsPlayStopButton(this);
+        //    });
+        //}
 
         protected InputHooker inputHooker;
         public InputHooker InputHooker
@@ -55,6 +95,7 @@ namespace KeyLogger.UserControls
 
         public Color UnpressedColor { get; set; }
         public Color PressedColor { get; set; }
+        public Color BindedColor { get; set; }
 
         private void InputHooker_KeyInput(object sender, HookCallbackEventArgs args)
         {
@@ -81,8 +122,8 @@ namespace KeyLogger.UserControls
                     default:
                         return;
                 }
-    
-                this.Background = new SolidColorBrush((isKeyDown) ? PressedColor : UnpressedColor);
+
+                this.Background = new SolidColorBrush((isKeyDown) ? PressedColor : ((AllBindedMacroses.Count > 0) ? BindedColor : UnpressedColor));
             }
         }
 

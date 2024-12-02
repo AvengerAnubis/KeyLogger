@@ -32,6 +32,7 @@ using KeyLogger.UserControls;
 using KeyLogger.Classes;
 using KeyLogger.Pages;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace KeyLogger
 {
@@ -40,6 +41,91 @@ namespace KeyLogger
 	/// </summary>
 	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
+		public KeyboardButton PrevPlayStopButton;
+		private BindingsPlayer _bindingsPlayer;
+
+		public void PlayStop(object sender, RoutedEventArgs e)
+		{
+			if (!_bindingsPlayer.IsRunning)
+			{
+				_bindingsPlayer.Bindings = _bindings;
+				_bindingsPlayer.Start();
+				(sender as Button).Content = "Остановка макросов";
+			}
+			else
+			{
+				(sender as Button).Content = "Запуск макросов";
+                _bindingsPlayer.Stop();
+            }
+        }
+		public void StartStopRecording(object sender, RoutedEventArgs e)
+		{
+			if (!_recorder.IsRecording)
+			{
+				if (!string.IsNullOrEmpty(RecordingMacroFilename))
+				{
+					bool regex = Regex.IsMatch(RecordingMacroFilename, @"^[\w,\s-\p{IsCyrillic}]+$");
+					if (regex)
+					{
+						_fileRecordTo = RecordingMacroFilename;
+
+                        (sender as Button).Content = "Остановить запись";
+                        uint delay = 32, interval = 250;
+						uint.TryParse(DefaultDelay, out delay);
+						uint.TryParse(MouseMovementRecordingInterval, out interval);
+						_recorder.BeginRecording(new MacroRecorderOptions()
+						{
+							DefaultDelay = delay,
+							MouseMovementRecordingInterval = interval,
+							SaveDelayBetweenActions = SaveDelayBetweenActions,
+							RecordIntermediateMouseMovement = RecordIntermediateMouseMovement
+						});
+					}
+				}
+			}
+			else
+			{
+                (sender as Button).Content = "Начать запись";
+                _recorder.EndRecording();
+				MacroLoaderSaver.SaveMacros(_recorder.Macro, _fileRecordTo + ".json");
+				UpdateMacrosFilesArray();
+
+                _recorder.Macro.MacroElements.Clear();
+            }
+		}
+
+		public bool SaveDelayBetweenActions { get; set; }
+		public bool RecordIntermediateMouseMovement { get; set; }
+		public string MouseMovementRecordingInterval { get; set; }
+		public string DefaultDelay { get; set; }
+
+        public string RecordingMacroFilename { get; set; }
+		private string _fileRecordTo;
+
+
+        public void BindMacros(object sender, string file)
+		{
+			KeyboardButton button = sender as KeyboardButton;
+			_bindings.Bindings.Add(new Binding(button.KeyCode, file));
+		}
+		public void UnbindMacros(object sender, string file)
+		{
+			KeyboardButton button = sender as KeyboardButton;
+			_bindings.Bindings.RemoveAt(_bindings.Bindings.FindIndex((b) => b.VkCode == button.KeyCode && b.MacroPath == file));
+        }
+		//public void SelectAsPlayStopButton(object sender)
+		//{
+		//	if (sender is KeyboardButton)
+		//	{
+		//		KeyboardButton keyboardButton = sender as KeyboardButton;
+		//		PrevPlayStopButton.Click -= PlayStop;
+		//		PrevPlayStopButton = keyboardButton;
+		//		PrevPlayStopButton.Click += PlayStop;
+		//  }
+		//}
+
+
+        public static MainWindow Instance { get; private set; }
 		bool wasRecorded = false;
 
 		private MacrosEditorPage _macrosEditorPage;
@@ -63,16 +149,40 @@ namespace KeyLogger
 			}
 		}
 
+		private string _selectedBinding;
+		public string SelectedBinding
+		{
+			get => _selectedBinding;
+			set
+			{
+				if (_selectedBinding != null)
+					BindingLoaderSaver.SaveBindings(_bindings, _selectedBinding);
+				_selectedBinding = value;
+				_bindings = BindingLoaderSaver.LoadBindings(_selectedBinding);
+                foreach (KeyboardButton button in keyboardGrid.Children)
+                {
+                    button.AllBindedMacroses.Clear();
+                    foreach (Binding binding in _bindings.Bindings)
+                    {
+                        if (binding.VkCode == button.KeyCode)
+                        {
+                            button.AllBindedMacroses.Add(binding.MacroPath);
+                        }
+                    }
+                    button.UpdateBinds();
+                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedBinding"));
+			}
+
+        }
+
+		public string NewBindingFile { get; set; }
+
 
         private BindingContainer _bindings;
 		public string CurrentBindingFile
 		{
 			get; private set;
-		}
-
-		public RelayCommand BindMacros
-		{
-			get; set;
 		}
 
         private string[] _allMacrosFiles;
@@ -91,41 +201,86 @@ namespace KeyLogger
             }
         }
 
+		public RelayCommand ReturnToMainPage
+		{
+			get => new RelayCommand(obj =>
+			{
+				if (_bindingsPlayer.IsRunning)
+				{
+					PlayStop(null, null);
+				}
+				mainFrame.GoBack();
+			});
+		}
+        public RelayCommand NavigateToMacrosEditor
+        {
+            get => new RelayCommand(obj =>
+            {
+				MacrosEditorPage page = new MacrosEditorPage() { DataContext = this };
+                page.MacrosFilesUpdated += (sender, e) => UpdateMacrosFilesArray();
+                mainFrame.Navigate(page);
+            });
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindow()
 		{
 			InitializeComponent();
-			this.DataContext = this;
-            BindMacros = new RelayCommand((macroPath) =>
+			Closing += (o, e) =>
 			{
+				BindingLoaderSaver.SaveBindings(_bindings, SelectedBinding);
+			};
+			Instance = this;
 
-			});
+            this.DataContext = this;
             _interceptKeys = new InputHooker();
 
             _interceptKeys.KeyInput += _interceptKeys_KeyInput;
+			_bindings = new BindingContainer();
 
 			foreach (KeyboardButton button in keyboardGrid.Children) 
 			{
 				button.InputHooker = _interceptKeys;
-				button.PressedColor = Colors.Red;
-				button.UnpressedColor = Colors.Green;
-			}
+				button.DataContext = this;
+				button.PressedColor = Colors.GreenYellow;
+                button.UnpressedColor = Colors.Gray;
+				button.BindedColor = Colors.Aqua;
+				button.Background = new SolidColorBrush(button.UnpressedColor);
 
-			_allMacrosFiles = MacroLoaderSaver.GetAllMacros();
-
-			_allBindingsFiles = BindingLoaderSaver.GetAllBindings();
-
-			if (_allBindingsFiles.Length == 0)
-			{
-                _bindings = new BindingContainer();
-                BindingLoaderSaver.SaveBindings(_bindings, "newProfile.json");
-				CurrentBindingFile = "newProfile";
+                foreach (Binding binding in _bindings.Bindings)
+				{
+					if (binding.VkCode == button.KeyCode)
+					{
+						button.AllBindedMacroses.Add(binding.MacroPath);
+                        button.UpdateBinds();
+                    }
+				}
+            }
+            foreach (MouseKeyButton button in mouseGrid.Children)
+            {
+                button.InputHooker = _interceptKeys;
+                button.DataContext = this;
+                button.PressedColor = Colors.GreenYellow;
+                button.UnpressedColor = Colors.Gray;
+				button.Background = new SolidColorBrush(button.UnpressedColor);
             }
 
-            _macrosEditorPage = new MacrosEditorPage() { DataContext = this };
-            _macrosEditorPage.MacrosFilesUpdated += (sender, e) => UpdateMacrosFilesArray();
-            mainFrame.Navigate(_macrosEditorPage);
+            _allMacrosFiles = MacroLoaderSaver.GetAllMacros();
+
+			_allBindingsFiles = BindingLoaderSaver.GetAllBindings();
+			if (_allBindingsFiles.Length == 0)
+			{
+				BindingLoaderSaver.SaveBindings(new BindingContainer(), "default.json");
+                _allBindingsFiles = BindingLoaderSaver.GetAllBindings();
+            }
+			SelectedBinding = _allBindingsFiles[0];
+
+			_bindingsPlayer = new BindingsPlayer(ref _interceptKeys);
+			_recorder = new MacroRecorder(ref _interceptKeys);
+
+            
+            mainFrame.Navigate(new MainPage());
         }
 
 		private void UpdateKeyStates()
@@ -138,7 +293,7 @@ namespace KeyLogger
 					{
 						button.UnpressedColor = Colors.Blue;
                     }
-                    if (button.KeyCode == binding.VkCode)
+                    else
                     {
                         button.UnpressedColor = Colors.Green;
                     }
@@ -161,8 +316,16 @@ namespace KeyLogger
 			}
         }
 
+		public void CreateBindingProfile()
+		{
+            bool regex = Regex.IsMatch(NewBindingFile, @"^[\w,\s-\p{IsCyrillic}]+$");
+            if (regex)
+            {
+				BindingLoaderSaver.SaveBindings(new BindingContainer(), NewBindingFile + ".json");
+				AllBindingsFiles = BindingLoaderSaver.GetAllBindings();
+            }
+        }
 
-
-		private void UpdateMacrosFilesArray() => _allMacrosFiles = MacroLoaderSaver.GetAllMacros();
+		private void UpdateMacrosFilesArray() => AllMacrosFiles = MacroLoaderSaver.GetAllMacros();
     }
 }
