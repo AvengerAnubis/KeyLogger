@@ -90,7 +90,7 @@ namespace KeyLogger.Macros
             }
             catch (Exception ex)
             {
-
+                throw new MacroDeleteException("Ошибка удаления макроса:\n" + ex.Message);
             }
         }
         /// <summary>
@@ -129,6 +129,18 @@ namespace KeyLogger.Macros
         public MacroSaveException(string message) : base(message) { }
         public MacroSaveException(string message, Exception inner) : base(message, inner) { }
         protected MacroSaveException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+
+
+    [Serializable]
+    public class MacroDeleteException : Exception
+    {
+        public MacroDeleteException() { }
+        public MacroDeleteException(string message) : base(message) { }
+        public MacroDeleteException(string message, Exception inner) : base(message, inner) { }
+        protected MacroDeleteException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }

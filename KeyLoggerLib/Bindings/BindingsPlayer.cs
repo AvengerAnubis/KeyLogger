@@ -54,6 +54,7 @@ namespace KeyLogger.Bindings
 		{
 			if (_isRunning)
 			{
+				_isRunning = false;
 				_hooker.KeyInput -= OnKeyboardInputGiven;
 				_hooker.MouseInput -= OnMouseInputGiven;
 			}

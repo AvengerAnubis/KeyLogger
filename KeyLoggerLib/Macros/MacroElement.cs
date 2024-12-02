@@ -106,6 +106,7 @@ namespace KeyLogger.Macros
 		public ushort KeyCode;
 		public KeyEventType KeyEventType;
 	}
+
 	public class KeyboardEventMacroElement : MacroElement
 	{
 		private KeyInputData[] _keys;
@@ -393,6 +394,11 @@ namespace KeyLogger.Macros
 		private INPUT[][] _inputs = new INPUT[2][];
 
 		private MouseButton _buttonPressed;
+		public MouseButton ButtonPressed
+		{
+			get => _buttonPressed;
+			set => _buttonPressed = value;
+		}
 
 		private bool _doMove;
 		public bool DoMove

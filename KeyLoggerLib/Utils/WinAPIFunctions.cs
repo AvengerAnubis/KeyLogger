@@ -34,9 +34,6 @@ namespace KeyLogger.Utils
         public static extern UInt32 GetLastError();
 
         [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
         public static extern UInt32 SendInput(UInt32 cInputs, INPUT[] pInputs, int cbSize);
 
         [DllImport("user32.dll")]

@@ -133,6 +133,7 @@ namespace KeyLogger.Bindings
             {
                 holdTime = macroJsonData.GetProperty("holdTime").GetInt64();
             }
+            player = new MacroPlayer(macro);
         }
 
         public void ExecuteIfVkMatches(VK vkCode, bool isKeyDown)
@@ -191,9 +192,13 @@ namespace KeyLogger.Bindings
 
         public void Execute()
         {
-            if (!isRunning && !player.IsRunning && macro != null)
+            if (!isRunning && !player.IsRunning && (macro == null || (macroPath != null && macroPath != "!notsaved")))
             {
                 isRunning = true;
+                if (macroPath != "!notsaved")
+                {
+                    macro = MacroLoaderSaver.LoadMacro(MacroPath);
+                }
                 player.Macro = macro;
 
                 player.RunMacroAsync().ContinueWith((task) => { isRunning = false; });

@@ -72,10 +72,6 @@ namespace KeyLogger.Utils
             }
             return CallNextHookEx(_keyboardHookID, nCode, wParam, lParam);
         }
-
-
-        const int SW_HIDE = 0;
-
     }
 
 }
