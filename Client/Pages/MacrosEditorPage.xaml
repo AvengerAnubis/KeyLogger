@@ -17,7 +17,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
-        <ListBox Grid.Column="1" Name="macrosListBox"  ItemsSource="{Binding AllMacrosFiles, UpdateSourceTrigger=PropertyChanged}">
+        <ListBox Grid.Column="0" Name="macrosListBox"  ItemsSource="{Binding AllMacrosFiles, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="24" HorizontalAlignment="Stretch">
@@ -46,7 +46,7 @@
 </Button>
             <TextBox Grid.Column="1" Name="newMacroNameTextBox" Text="NewMacro" Margin="16,0,0,0"/>
         </Grid>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="1*"/>

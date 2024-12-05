@@ -6,7 +6,6 @@
 			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
         <Style TargetType="local:MainWindow">
-            <Setter Property="Background" Value="Gray"/>
         </Style>
         
         <Style TargetType="uc:KeyboardButton">
