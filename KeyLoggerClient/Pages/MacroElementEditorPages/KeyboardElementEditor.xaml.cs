@@ -14,20 +14,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 #region юзинги для библиотеки
-using KeyLogger.Utils;
-using KeyLogger.Macros;
-using KeyLogger.Bindings;
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Bindings;
 #endregion
 
 #region статичные юзинги
-using static KeyLogger.Utils.WinAPIFunctions;
-using static KeyLogger.Utils.Constants;
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
 using System.Text.RegularExpressions;
-using KeyLogger.Classes;
+using SharpMacroPlayer.Classes;
 using System.ComponentModel;
 #endregion
 
-namespace KeyLogger.Pages.MacroElementEditorPages
+namespace SharpMacroPlayer.Pages.MacroElementEditorPages
 {
     /// <summary>
     /// Логика взаимодействия для KeyboardElementEditor.xaml

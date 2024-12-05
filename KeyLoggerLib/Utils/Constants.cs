@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KeyLogger.Utils
+namespace SharpMacroPlayer.Utils
 {
 	public static class Constants
 	{

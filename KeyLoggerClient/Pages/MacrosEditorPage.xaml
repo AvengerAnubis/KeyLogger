@@ -1,9 +1,9 @@
-﻿<Page x:Class="KeyLogger.Pages.MacrosEditorPage"
+﻿<Page x:Class="SharpMacroPlayer.Pages.MacrosEditorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:KeyLogger.Pages"
+      xmlns:local="clr-namespace:SharpMacroPlayer.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="280" d:DesignWidth="840"
       Title="MacrosEditorPage">
@@ -17,7 +17,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
-        <ListBox Name="macrosListBox"  ItemsSource="{Binding AllMacrosFiles, UpdateSourceTrigger=PropertyChanged}">
+        <ListBox Grid.Column="1" Name="macrosListBox"  ItemsSource="{Binding AllMacrosFiles, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="24" HorizontalAlignment="Stretch">
@@ -46,7 +46,7 @@
 </Button>
             <TextBox Grid.Column="1" Name="newMacroNameTextBox" Text="NewMacro" Margin="16,0,0,0"/>
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="1*"/>
@@ -63,7 +63,7 @@
                                 <ColumnDefinition Width="16"/>
                                 <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Path=StringRepresentation}"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Path=StringRepresentation}"/>
                             <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=DeleteMacroElement}" CommandParameter="{Binding}">
                                 <Image Source="/Resources/iconminus.png" />
                             </Button>

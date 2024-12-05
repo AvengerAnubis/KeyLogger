@@ -1,5 +1,5 @@
-﻿using KeyLogger.Macros;
-using KeyLogger.Utils;
+﻿using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,9 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static KeyLogger.Utils.Constants;
+using static SharpMacroPlayer.Utils.Constants;
 
-namespace KeyLogger.Pages
+namespace SharpMacroPlayer.Pages
 {
     /// <summary>
     /// Логика взаимодействия для MainPage.xaml

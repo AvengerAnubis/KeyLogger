@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-using static KeyLogger.Utils.Constants;
-using static KeyLogger.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
 
-namespace KeyLogger.Utils
+namespace SharpMacroPlayer.Utils
 {
     public struct HookCallbackEventArgs
     {

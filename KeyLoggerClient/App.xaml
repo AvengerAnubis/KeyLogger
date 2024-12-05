@@ -1,11 +1,12 @@
-﻿<Application x:Class="KeyLogger.App"
+﻿<Application x:Class="SharpMacroPlayer.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:local="clr-namespace:KeyLogger"
-			 xmlns:uc="clr-namespace:KeyLogger.UserControls"
+			 xmlns:local="clr-namespace:SharpMacroPlayer"
+			 xmlns:uc="clr-namespace:SharpMacroPlayer.UserControls"
 			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
         <Style TargetType="local:MainWindow">
+            <Setter Property="Background" Value="Gray"/>
         </Style>
         
         <Style TargetType="uc:KeyboardButton">

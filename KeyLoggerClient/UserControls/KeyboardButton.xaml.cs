@@ -14,19 +14,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 #region юзинги для библиотеки
-using KeyLogger.Utils;
-using KeyLogger.Macros;
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
 #endregion
 
 #region статичные юзинги
-using static KeyLogger.Utils.WinAPIFunctions;
-using static KeyLogger.Utils.Constants;
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
 using System.Runtime.InteropServices;
-using KeyLogger.Classes;
-using KeyLogger.Bindings;
+using SharpMacroPlayer.Classes;
+using SharpMacroPlayer.Bindings;
 #endregion
 
-namespace KeyLogger.UserControls
+namespace SharpMacroPlayer.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для KeyboardButton.xaml

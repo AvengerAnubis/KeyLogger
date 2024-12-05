@@ -1,4 +1,4 @@
-﻿using KeyLogger.Macros;
+﻿using SharpMacroPlayer.Macros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace KeyLogger.Bindings
+namespace SharpMacroPlayer.Bindings
 {
     public class BindingContainer
     {

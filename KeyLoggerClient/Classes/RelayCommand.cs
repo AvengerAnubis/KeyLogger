@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace KeyLogger.Classes
+namespace SharpMacroPlayer.Classes
 {
     public class RelayCommand : ICommand
     {

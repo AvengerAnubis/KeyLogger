@@ -12,25 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-#region юзинги для библиотеки
-using KeyLogger.Utils;
-using KeyLogger.Macros;
-using KeyLogger.Bindings;
-#endregion
-
-#region статичные юзинги
-using static KeyLogger.Utils.WinAPIFunctions;
-using static KeyLogger.Utils.Constants;
 using System.Text.RegularExpressions;
-using KeyLogger.Classes;
 using System.ComponentModel;
-using KeyLogger.Pages.MacroElementEditorPages;
-using System.Windows.Markup;
-using System.Runtime.InteropServices;
-#endregion
 
-namespace KeyLogger.Pages
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Bindings;
+using SharpMacroPlayer.Classes;
+
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
+
+
+namespace SharpMacroPlayer.Pages
 {
     /// <summary>
     /// Логика взаимодействия для MacrosEditorPage.xaml

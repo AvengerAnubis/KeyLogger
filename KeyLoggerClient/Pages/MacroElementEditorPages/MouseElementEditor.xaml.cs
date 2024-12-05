@@ -1,4 +1,4 @@
-﻿using KeyLogger.Macros;
+﻿using SharpMacroPlayer.Macros;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static KeyLogger.Pages.MacroElementEditorPages.KeyboardElementEditor;
-using static KeyLogger.Utils.Constants;
-using MouseButton = KeyLogger.Macros.MouseButton;
+using static SharpMacroPlayer.Pages.MacroElementEditorPages.KeyboardElementEditor;
+using static SharpMacroPlayer.Utils.Constants;
+using MouseButton = SharpMacroPlayer.Macros.MouseButton;
 
-namespace KeyLogger.Pages.MacroElementEditorPages
+namespace SharpMacroPlayer.Pages.MacroElementEditorPages
 {
     /// <summary>
     /// Логика взаимодействия для MouseElementEditor.xaml

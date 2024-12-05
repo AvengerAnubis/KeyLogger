@@ -1,9 +1,9 @@
-﻿<Page x:Class="KeyLogger.Pages.MacroElementEditorPages.KeyboardElementEditor"
+﻿<Page x:Class="SharpMacroPlayer.Pages.MacroElementEditorPages.KeyboardElementEditor"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	  xmlns:local="clr-namespace:KeyLogger.Pages.MacroElementEditorPages"
+	  xmlns:local="clr-namespace:SharpMacroPlayer.Pages.MacroElementEditorPages"
 	  mc:Ignorable="d" 
 	  d:DesignHeight="480" d:DesignWidth="640"
 	  Title="KeyboardElementEditor">

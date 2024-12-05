@@ -1,5 +1,5 @@
-﻿using KeyLogger.Macros;
-using KeyLogger.Pages.MacroElementEditorPages;
+﻿using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Pages.MacroElementEditorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace KeyLogger
+namespace SharpMacroPlayer
 {
     /// <summary>
     /// Логика взаимодействия для MacroElementEditorWindow.xaml

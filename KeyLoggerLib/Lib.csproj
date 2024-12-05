@@ -7,8 +7,8 @@
     <ProjectGuid>{5D9E8CCE-8B14-4921-ABD0-4DB0DD4F3825}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KeyLogger</RootNamespace>
-    <AssemblyName>KeyLoggerLib</AssemblyName>
+    <RootNamespace>SharpMacroPlayer</RootNamespace>
+    <AssemblyName>Lib</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

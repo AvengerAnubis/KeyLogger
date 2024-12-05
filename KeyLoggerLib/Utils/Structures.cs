@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System;
 
-namespace KeyLogger.Utils
+namespace SharpMacroPlayer.Utils
 {
     public struct INPUT
     {

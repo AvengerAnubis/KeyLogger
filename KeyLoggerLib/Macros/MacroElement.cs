@@ -14,17 +14,17 @@ using System.Text.Json.Nodes;
 using System.IO;
 
 #region юзинги для библиотеки
-using KeyLogger.Utils;
-using KeyLogger.Macros;
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
 #endregion
 
 #region статичные юзинги
-using static KeyLogger.Utils.WinAPIFunctions;
-using static KeyLogger.Utils.Constants;
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
 using System.Net.Http;
 #endregion
 
-namespace KeyLogger.Macros
+namespace SharpMacroPlayer.Macros
 {
 	/// <summary>
 	/// Тип макроса

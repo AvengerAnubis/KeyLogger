@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6CFACDEA-154D-4BAE-9860-65DC09790261}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>KeyLogger</RootNamespace>
-    <AssemblyName>KeyLoggerClient</AssemblyName>
+    <RootNamespace>SharpMacroPlayer</RootNamespace>
+    <AssemblyName>Client</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -191,9 +191,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KeyLoggerLib\KeyLoggerLib.csproj">
+    <ProjectReference Include="..\KeyLoggerLib\Lib.csproj">
       <Project>{5d9e8cce-8b14-4921-abd0-4db0dd4f3825}</Project>
-      <Name>KeyLoggerLib</Name>
+      <Name>Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

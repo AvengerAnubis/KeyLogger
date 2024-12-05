@@ -7,16 +7,16 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 #region юзинги для библиотеки
-using KeyLogger.Utils;
-using KeyLogger.Macros;
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
 #endregion
 
 #region статичные юзинги
-using static KeyLogger.Utils.WinAPIFunctions;
-using static KeyLogger.Utils.Constants;
+using static SharpMacroPlayer.Utils.WinAPIFunctions;
+using static SharpMacroPlayer.Utils.Constants;
 #endregion
 
-namespace KeyLogger.Macros
+namespace SharpMacroPlayer.Macros
 {
     /// <summary>
     /// Предоставляет статические методы для сохранения/загрузки макросов в JSON файлы
