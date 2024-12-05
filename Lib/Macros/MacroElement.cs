@@ -725,15 +725,27 @@ namespace SharpMacroPlayer.Macros
 			_msToWait = msToWait;
             macroType = MacroType.WAITTIME;
 			stringRepresentationFunc = () => $"Подождать {_msToWait} мс.";
-			action = async (player) => await Task.Delay(TimeSpan.FromMilliseconds(msToWait));
-		}
+            action = async (player) =>
+            {
+                long timeToWait = _msToWait - player.Stopwatch.ElapsedMilliseconds;
+                if (timeToWait > 0)
+                    await Task.Delay(TimeSpan.FromMilliseconds(timeToWait));
+                player.Stopwatch.Restart();
+            };
+        }
 
 		public WaitTimeMacroElement(JsonElement macroJsonData)
 		{
 			_msToWait = macroJsonData.GetProperty("msToWait").GetInt64();
             macroType = MacroType.WAITTIME;
             stringRepresentationFunc = () => $"Подождать {_msToWait} мс.";
-            action = async (player) => await Task.Delay(TimeSpan.FromMilliseconds(_msToWait));
+			action = async (player) =>
+			{
+				long timeToWait = _msToWait - player.Stopwatch.ElapsedMilliseconds;
+				if (timeToWait > 0)
+                    await Task.Delay(TimeSpan.FromMilliseconds(timeToWait));
+				player.Stopwatch.Restart();
+            };
         }
         public override void WriteToJson(ref Utf8JsonWriter writer)
         {

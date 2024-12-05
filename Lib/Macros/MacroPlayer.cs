@@ -13,6 +13,7 @@ using SharpMacroPlayer.Macros;
 #region статичные юзинги
 using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
+using System.Diagnostics;
 #endregion
 
 namespace SharpMacroPlayer.Macros
@@ -29,6 +30,12 @@ namespace SharpMacroPlayer.Macros
         public bool IsRunning
         {
             get => _isRunning;
+        }
+
+        private Stopwatch _stopwatch = new Stopwatch();
+        public Stopwatch Stopwatch
+        {
+            get => _stopwatch;
         }
 
         private Stack<IndexCondition> _returnIndexes;
@@ -78,6 +85,7 @@ namespace SharpMacroPlayer.Macros
         {
             if (!_isRunning)
             {
+                _stopwatch.Restart();
                 _isRunning = true;
                 while (_currentIndex < _macro.MacroElements.Count)
                 {
@@ -86,6 +94,7 @@ namespace SharpMacroPlayer.Macros
                 }
                 _currentIndex = 0;
                 _isRunning = false;
+                _stopwatch.Reset();
             }
         }
         /// <summary>
@@ -95,6 +104,7 @@ namespace SharpMacroPlayer.Macros
         {
             if (!_isRunning)
             {
+                _stopwatch.Restart();
                 _isRunning = true;
                 while (_currentIndex < _macro.MacroElements.Count)
                 {
@@ -103,6 +113,7 @@ namespace SharpMacroPlayer.Macros
                 }
                 _currentIndex = 0;
                 _isRunning = false;
+                _stopwatch.Reset();
             }
         }
     }
