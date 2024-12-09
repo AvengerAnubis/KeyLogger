@@ -63,7 +63,7 @@
                                 <ColumnDefinition Width="16"/>
                                 <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Path=StringRepresentation}"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Path=.}"/>
                             <Button Grid.Column="1" Style="{StaticResource ButtonIcon}" Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, Path=DeleteMacroElement}" CommandParameter="{Binding}">
                                 <Image Source="/Resources/iconminus.png" />
                             </Button>
