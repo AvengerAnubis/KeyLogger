@@ -38,6 +38,13 @@ namespace SharpMacroPlayer.Macros
             get => _stopwatch;
         }
 
+        private long _timeSinceStart = 0;
+        public long TimeSinceStart
+        {
+            get => _timeSinceStart;
+            set => _timeSinceStart = value;
+        }
+
         private Stack<IndexCondition> _returnIndexes;
 
         public void PushIndexCondition(int index, long conditionNumber)
@@ -86,6 +93,7 @@ namespace SharpMacroPlayer.Macros
             if (!_isRunning)
             {
                 _stopwatch.Restart();
+                _timeSinceStart = 0;
                 _isRunning = true;
                 while (_currentIndex < _macro.MacroElements.Count)
                 {
@@ -94,7 +102,6 @@ namespace SharpMacroPlayer.Macros
                 }
                 _currentIndex = 0;
                 _isRunning = false;
-                _stopwatch.Reset();
             }
         }
         /// <summary>

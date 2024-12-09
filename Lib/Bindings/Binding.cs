@@ -9,6 +9,7 @@ using System.Text.Json;
 #region юзинги для библиотеки
 using SharpMacroPlayer.Utils;
 using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Macros.MacroElements;
 #endregion
 
 #region статичные юзинги

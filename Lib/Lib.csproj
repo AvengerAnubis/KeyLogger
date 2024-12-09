@@ -76,9 +76,14 @@
     <Compile Include="Bindings\BindingContainer.cs" />
     <Compile Include="Bindings\BindingsPlayer.cs" />
     <Compile Include="Bindings\BindingLoaderSaver.cs" />
+    <Compile Include="Macros\MacroElements\EndOfLoopMacroElement.cs" />
+    <Compile Include="Macros\MacroElements\KeyboardEventMacroElement.cs" />
+    <Compile Include="Macros\MacroElements\LoopMacroElement.cs" />
+    <Compile Include="Macros\MacroElements\MacroElement.cs" />
+    <Compile Include="Macros\MacroElements\MouseEventMacroElement.cs" />
+    <Compile Include="Macros\MacroElements\WaitTimeMacroElement.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Macros\Macro.cs" />
-    <Compile Include="Macros\MacroElement.cs" />
     <Compile Include="Utils\InputHooker.cs" />
     <Compile Include="Macros\MacroLoaderSaver.cs" />
     <Compile Include="Macros\MacroPlayer.cs" />

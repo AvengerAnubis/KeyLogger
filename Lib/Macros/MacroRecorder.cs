@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 #region юзинги для библиотеки
 using SharpMacroPlayer.Utils;
 using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Macros.MacroElements;
 #endregion
 
 #region статичные юзинги
@@ -64,6 +65,8 @@ namespace SharpMacroPlayer.Macros
             get => (!_isRecording) ? _macro : null;
         }
 
+        private long _timeSinceStart;
+
         public MacroRecorder(ref InputHooker hooker) 
         {
             _hooker = hooker;
@@ -76,6 +79,7 @@ namespace SharpMacroPlayer.Macros
             if (!_isRecording)
             {
                 _options = options;
+                _timeSinceStart = 0;
 
                 _macro.MacroElements.Clear();
                 _hooker.MouseInput += OnMouseInputGiven;
@@ -92,7 +96,6 @@ namespace SharpMacroPlayer.Macros
                 _hooker.MouseInput -= OnMouseInputGiven;
                 _hooker.KeyInput -= OnKeyboardInputGiver;
                 _isRecording = false;
-                _recordStopwatch.Reset();
             }
         }
 
@@ -102,7 +105,8 @@ namespace SharpMacroPlayer.Macros
         /// <param name="args">Данные о вводе с мыши</param>
         private void OnMouseInputGiven(object sender, HookCallbackEventArgs args)
         {
-            long elapsed = _recordStopwatch.ElapsedMilliseconds;
+            long elapsed = _recordStopwatch.ElapsedMilliseconds - _timeSinceStart;
+
             // Получаем структуру из памяти по указателю
             MSLLHOOKSTRUCT data = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(args.lParam);
 
@@ -112,7 +116,7 @@ namespace SharpMacroPlayer.Macros
                 {
                     if (elapsed > _options.MouseMovementRecordingInterval)
                     {
-                        _recordStopwatch.Restart();
+                        _timeSinceStart = _recordStopwatch.ElapsedMilliseconds;
                         if (_options.SaveDelayBetweenActions)
                         {
                             // добавляем действие - ожидание
@@ -133,8 +137,7 @@ namespace SharpMacroPlayer.Macros
             }
             else
             {
-                _recordStopwatch.Restart();
-                
+                _timeSinceStart = _recordStopwatch.ElapsedMilliseconds;
                 // Если в настройках указано сохранять интервал между действиями
                 if (_options.SaveDelayBetweenActions)
                 {
@@ -180,6 +183,7 @@ namespace SharpMacroPlayer.Macros
                     }
                 }
             }
+            
         }
         /// <summary>
         /// Метод, обрабатыващий ввод с клавиатуры
@@ -187,8 +191,8 @@ namespace SharpMacroPlayer.Macros
         /// <param name="args">Данные о вводе с клавиатуры</param>
         private void OnKeyboardInputGiver(object sender, HookCallbackEventArgs args)
         {
-            long elapsed = _recordStopwatch.ElapsedMilliseconds;
-            _recordStopwatch.Restart();
+            long elapsed = _recordStopwatch.ElapsedMilliseconds - _timeSinceStart;
+            _timeSinceStart = _recordStopwatch.ElapsedMilliseconds;
             // Получаем структуру из памяти по указателю
             KBDLLHOOKSTRUCT data = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(args.lParam);
             // Если в настройках указано сохранять интервал между действиями

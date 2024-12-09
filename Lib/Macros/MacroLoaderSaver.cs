@@ -14,6 +14,7 @@ using SharpMacroPlayer.Macros;
 #region статичные юзинги
 using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
+using System.Collections.ObjectModel;
 #endregion
 
 namespace SharpMacroPlayer.Macros
