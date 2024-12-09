@@ -16,17 +16,15 @@ using System.Windows.Shapes;
 #region юзинги для библиотеки
 using SharpMacroPlayer.Utils;
 using SharpMacroPlayer.Macros;
-using SharpMacroPlayer.Bindings;
+using SharpMacroPlayer.Macros.MacroElements;
 #endregion
 
 #region статичные юзинги
 using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
-using System.Text.RegularExpressions;
-using SharpMacroPlayer.Classes;
 using System.ComponentModel;
+using SharpMacroPlayer.Classes;
 #endregion
-
 namespace SharpMacroPlayer.Pages.MacroElementEditorPages
 {
     /// <summary>

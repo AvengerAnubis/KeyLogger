@@ -24,7 +24,7 @@ using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
 #endregion
 
-using MouseButton = SharpMacroPlayer.Macros.MouseButton;
+using MouseButton = SharpMacroPlayer.Macros.MacroElements.MouseButton;
 
 namespace SharpMacroPlayer.UserControls
 {

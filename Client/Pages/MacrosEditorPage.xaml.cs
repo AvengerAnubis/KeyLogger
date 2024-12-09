@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
-using SharpMacroPlayer.Utils;
-using SharpMacroPlayer.Macros;
-using SharpMacroPlayer.Bindings;
 using SharpMacroPlayer.Classes;
 
+#region юзинги для библиотеки
+using SharpMacroPlayer.Utils;
+using SharpMacroPlayer.Macros;
+using SharpMacroPlayer.Macros.MacroElements;
+#endregion
+
+#region статичные юзинги
 using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
+#endregion
 
 
 namespace SharpMacroPlayer.Pages
@@ -139,7 +134,7 @@ namespace SharpMacroPlayer.Pages
                             macroElement = new KeyboardEventMacroElement(new ushort[] {(ushort)VK.VK_W}, new KeyEventType[] {KeyEventType.VIRTUAL_KEY}, true, true);
                             break;
                         case "MB":
-                            macroElement = new MouseEventMacroElement(true, true, Macros.MouseButton.LMB, false, true, 0, 0);
+                            macroElement = new MouseEventMacroElement(true, true, MouseButton.LMB, false, true, 0, 0);
                             break;
                         case "WT":
                             macroElement = new WaitTimeMacroElement(100);

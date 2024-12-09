@@ -271,6 +271,7 @@ namespace SharpMacroPlayer
 				button.Background = new SolidColorBrush(button.UnpressedColor);
             }
 
+
             _allMacrosFiles = MacroLoaderSaver.GetAllMacros();
 
 			_allBindingsFiles = BindingLoaderSaver.GetAllBindings();
