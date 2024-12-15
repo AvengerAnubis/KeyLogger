@@ -39,6 +39,10 @@ namespace SharpMacroPlayer.Macros
             {
                 if (isRelative)
                 {
+                    if (!Directory.Exists(Path.GetFullPath(PathOfMacros)))
+                    {
+                        Directory.CreateDirectory(Path.GetFullPath(PathOfMacros));
+                    }
                     filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Create, FileAccess.Write))
@@ -66,6 +70,10 @@ namespace SharpMacroPlayer.Macros
             {
                 if (isRelative)
                 {
+                    if (!Directory.Exists(Path.GetFullPath(PathOfMacros)))
+                    {
+                        Directory.CreateDirectory(Path.GetFullPath(PathOfMacros));
+                    }
                     filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Open, FileAccess.Read))
@@ -86,6 +94,10 @@ namespace SharpMacroPlayer.Macros
         {
             try
             {
+                if (!Directory.Exists(Path.GetFullPath(PathOfMacros)))
+                {
+                    Directory.CreateDirectory(Path.GetFullPath(PathOfMacros));
+                }
                 filepath = Path.GetFullPath(PathOfMacros + "\\" + filepath);
                 File.Delete(filepath);
             }

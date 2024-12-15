@@ -43,6 +43,10 @@ namespace SharpMacroPlayer.Bindings
             {
                 if (isRelative)
                 {
+                    if (!Directory.Exists(Path.GetFullPath(PathOfBindings)))
+                    {
+                        Directory.CreateDirectory(Path.GetFullPath(PathOfBindings));
+                    }
                     filepath = Path.GetFullPath(PathOfBindings + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Create, FileAccess.Write))
@@ -70,6 +74,10 @@ namespace SharpMacroPlayer.Bindings
             {
                 if (isRelative)
                 {
+                    if (!Directory.Exists(Path.GetFullPath(PathOfBindings)))
+                    {
+                        Directory.CreateDirectory(Path.GetFullPath(PathOfBindings));
+                    }
                     filepath = Path.GetFullPath(PathOfBindings + "\\" + filepath);
                 }
                 using (FileStream file = new FileStream(filepath, FileMode.Open, FileAccess.Read))
@@ -90,6 +98,10 @@ namespace SharpMacroPlayer.Bindings
         {
             try
             {
+                if (!Directory.Exists(Path.GetFullPath(PathOfBindings)))
+                {
+                    Directory.CreateDirectory(Path.GetFullPath(PathOfBindings));
+                }
                 filepath = Path.GetFullPath(PathOfBindings + "\\" + filepath);
                 File.Delete(filepath);
             }
