@@ -231,6 +231,11 @@ namespace SharpMacroPlayer
 
         public MainWindow()
 		{
+			// Предотвращаем запуск старого проекта! запустить нужно ClientNew!
+			MessageBox.Show("Запустите проект ClientNew, т.к. Client является устаревшим!");
+			Close();
+			// 
+
 			InitializeComponent();
 			Closing += (o, e) =>
 			{
