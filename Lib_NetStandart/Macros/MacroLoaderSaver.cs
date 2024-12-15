@@ -107,7 +107,10 @@ namespace SharpMacroPlayer.Macros
             }
             string[] files = Directory.EnumerateFiles(Path.GetFullPath(PathOfMacros)).Select(el => Path.GetFileName(el)).ToArray();
             if (files.Length == 0)
+            {
                 SaveMacros(new Macro(), "default.json");
+                files = Directory.EnumerateFiles(Path.GetFullPath(PathOfMacros)).Select(el => Path.GetFileName(el)).ToArray();
+            }
             // возрващаем только имена файлов
             return files;
         }

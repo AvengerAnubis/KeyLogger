@@ -111,7 +111,10 @@ namespace SharpMacroPlayer.Bindings
             }
             string[] files = Directory.EnumerateFiles(Path.GetFullPath(PathOfBindings)).Select(el => Path.GetFileName(el)).ToArray();
             if (files.Length == 0)
+            {
                 SaveBindings(new BindingContainer(), "default.json");
+                files = Directory.EnumerateFiles(Path.GetFullPath(PathOfBindings)).Select(el => Path.GetFileName(el)).ToArray();
+            }
             // возрващаем только имена файлов
             return files;
         }
