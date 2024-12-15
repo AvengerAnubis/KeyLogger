@@ -19,10 +19,10 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <ui:TextBlock Text="Запись макросов" FontSize="24" FontWeight="Medium"/>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" MinWidth="128"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="72"/>
