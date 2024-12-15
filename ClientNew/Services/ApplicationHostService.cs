@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Wpf.Ui;
 using SharpMacroPlayer.ClientNew.Views.Windows;
 using SharpMacroPlayer.ClientNew.Views.Pages;
+using SharpMacroPlayer.Bindings;
 
 namespace SharpMacroPlayer.ClientNew.Services
 {
@@ -50,6 +51,7 @@ namespace SharpMacroPlayer.ClientNew.Services
                 )!;
                 _navigationWindow!.ShowWindow();
                 _navigationWindow!.Navigate(typeof(MacroListPage));
+                BindingLoaderSaver.GetAllBindings();
             }
 
             await Task.CompletedTask;
