@@ -211,6 +211,8 @@ namespace SharpMacroPlayer.Bindings
             }
         }
 
+        public void Stop() => player.StopMacro();
+
         public void WriteToJson(ref Utf8JsonWriter writer)
         {
             writer.WriteStartObject();

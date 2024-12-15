@@ -113,7 +113,7 @@ namespace SharpMacroPlayer.Macros
             {
                 _stopwatch.Restart();
                 _isRunning = true;
-                while (_currentIndex < _macro.MacroElements.Count)
+                while (_currentIndex < _macro.MacroElements.Count && _isRunning)
                 {
                     Task.Run(async () => { await _macro.MacroElements[_currentIndex].Execute(this); }).Wait();
                     _currentIndex++;
@@ -123,6 +123,8 @@ namespace SharpMacroPlayer.Macros
                 _stopwatch.Reset();
             }
         }
+
+        public void StopMacro() => _isRunning = false;
     }
 
 
