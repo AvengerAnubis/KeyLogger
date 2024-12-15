@@ -1,0 +1,112 @@
+﻿<Page x:Class="SharpMacroPlayer.ClientNew.Views.Pages.MacroEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SharpMacroPlayer.ClientNew.Views.Pages"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:macroelementvm="clr-namespace:SharpMacroPlayer.ClientNew.ViewModels.MacroElementsViewModels"
+      xmlns:macro="clr-namespace:SharpMacroPlayer.Macros.MacroElements;assembly=Lib_NetStandart"
+      mc:Ignorable="d" 
+      d:DataContext="{d:DesignInstance local:MacroEditorPage, IsDesignTimeCreatable=True}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MacroEditorPage"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      ScrollViewer.CanContentScroll="False">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ui:TextBlock Text="{Binding ViewModel.MacroName}" FontSize="24" FontWeight="Medium"/>
+        <ui:ListView Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                     ItemsSource="{Binding ViewModel.MacroElements}"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ui:ListView.Resources>
+                <Style TargetType="{x:Type ui:ListViewItem}"  BasedOn="{StaticResource {x:Type ui:ListViewItem}}">
+                    <Setter Property="IsSelected" Value="{Binding Path=Selected, Mode=TwoWay}" />
+                </Style>
+            </ui:ListView.Resources>
+            <ui:ListView.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.Items>
+                        <MenuItem   Header="Удалить выбранные" 
+                        Command="{Binding Path=ViewModel.RemoveSelectedCommand}"/>
+                        <MenuItem   Header="Сдвинуть вниз выбранные" 
+                        Command="{Binding Path=ViewModel.MoveDownSelectedCommand}"/>
+                        <MenuItem   Header="Сдвинуть вверх выбранные" 
+                        Command="{Binding Path=ViewModel.MoveUpSelectedCommand}"/>
+                    </ContextMenu.Items>
+                </ContextMenu>
+            </ui:ListView.ContextMenu>
+            <ui:ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="16"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBlock Text="{Binding Path=Element}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
+                        <ui:Button     Grid.Column="1"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, 
+                                        Path=ViewModel.RemoveCommand}" 
+                                        CommandParameter="{Binding Path=.}"
+                                        Margin="4">
+                            <ui:SymbolIcon Symbol="Delete20"/>
+                        </ui:Button>
+                        <ui:Button  Grid.Column="2"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, 
+                                        Path=ViewModel.MoveDownCommand}" 
+                                        CommandParameter="{Binding Path=.}"
+                                        Margin="4">
+                            <ui:SymbolIcon Symbol="ArrowDown20"/>
+                        </ui:Button>
+                        <ui:Button  Grid.Column="3"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, 
+                                        Path=ViewModel.MoveUpCommand}" 
+                                        CommandParameter="{Binding Path=.}"
+                                        Margin="4">
+                            <ui:SymbolIcon Symbol="ArrowUp20"/>
+                        </ui:Button>
+                        <ui:Button  Grid.Column="4"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}, 
+                                        Path=ViewModel.EditCommand}" 
+                                        CommandParameter="{Binding Path=.}"
+                                        Margin="4">
+                            <ui:SymbolIcon Symbol="Edit20"/>
+                        </ui:Button>
+                    </Grid>
+                </DataTemplate>
+            </ui:ListView.ItemTemplate>
+        </ui:ListView>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <ui:Button  Height="40" Width="40"
+            Command="{Binding ViewModel.SaveMacroCommand}"
+            Margin="4">
+                <ui:SymbolIcon Symbol="Save24"/>
+            </ui:Button>
+            <Line X1="0" X2="40"></Line>
+            <ui:Button Height="40" Width="40" Command="{Binding ViewModel.AddKeyboardEventMacroElementCommand}" Margin="4">
+                <ui:SymbolIcon Symbol="Keyboard24"/>
+            </ui:Button>
+            <ui:Button Height="40" Width="40" Command="{Binding ViewModel.AddMouseEventMacroElementCommand}" Margin="4">
+                <ui:FontIcon Glyph="🖱" FontSize="13"/>
+            </ui:Button>
+            <ui:Button Height="40" Width="40" Command="{Binding ViewModel.AddWaitTimeMacroElementCommand}" Margin="4">
+                <ui:SymbolIcon Symbol="Timer24"/>
+            </ui:Button>
+            <ui:Button Height="40" Width="40" Command="{Binding ViewModel.AddLoopMacroElementCommand}" Margin="4">
+                <ui:SymbolIcon Symbol="ArrowRepeatAll24"/>
+            </ui:Button>
+            <ui:Button Height="40" Width="40" Command="{Binding ViewModel.AddEndOfLoopMacroElementCommand}" Margin="4">
+                <ui:SymbolIcon Symbol="ArrowRepeatAllOff24"/>
+            </ui:Button>
+        </StackPanel>
+    </Grid>
+</Page>

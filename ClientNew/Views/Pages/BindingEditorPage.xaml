@@ -1,0 +1,73 @@
+﻿<Page x:Class="SharpMacroPlayer.ClientNew.Views.Pages.BindingEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:local="clr-namespace:SharpMacroPlayer.ClientNew.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BindingEditorPage"
+      d:DataContext="{d:DesignInstance local:BindingEditorPage, IsDesignTimeCreatable=True}"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      ScrollViewer.CanContentScroll="False">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ui:TextBlock Text="Биндинги" FontSize="24" FontWeight="Medium"/>
+        <ui:ListView Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="8"
+             ItemsSource="{Binding ViewModel.Bindings}"
+             ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ui:ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBlock Margin="8" Text="Выполнить" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Medium"/>
+                        <ComboBox Grid.Column="1" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding Macros}" SelectedItem="{Binding Macro}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="2" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding PlayConditions}" SelectedItem="{Binding PlayCondition}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="3" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding KeyCode.VkCodes}" SelectedItem="{Binding KeyCode.VkCode}" VerticalAlignment="Center"/>
+                        <ui:Button  Height="40" Width="40" Grid.Column="4"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor},Path=ViewModel.RemoveCommand}" CommandParameter="{Binding Path=.}"
+                                    Margin="8">
+                            <ui:SymbolIcon Symbol="Delete24"/>
+                        </ui:Button>
+                    </Grid>
+                </DataTemplate>
+            </ui:ListView.ItemTemplate>
+        </ui:ListView>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <ui:Button  Height="40" Width="40"
+                        Command="{Binding ViewModel.SaveCommand}"
+                        Margin="4">
+                <ui:SymbolIcon Symbol="Save24"/>
+            </ui:Button>
+            <ui:Button  Height="40" Width="40"
+                        Command="{Binding ViewModel.AddCommand}"
+                        Margin="4">
+                <ui:SymbolIcon Symbol="Add24"/>
+            </ui:Button>
+            <Grid>
+                <ui:Button  Height="40" Width="40"
+                            Command="{Binding ViewModel.PlayStopCommand}"
+                            Margin="4" Visibility="{Binding ViewModel.PlayButtonVisibility}">
+                    <ui:SymbolIcon Symbol="Play24"/>
+                </ui:Button>
+                <ui:Button  Height="40" Width="40"
+                            Command="{Binding ViewModel.PlayStopCommand}"
+                            Margin="4" Visibility="{Binding ViewModel.StopButtonVisibility}">
+                    <ui:SymbolIcon Symbol="Stop24"/>
+                </ui:Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

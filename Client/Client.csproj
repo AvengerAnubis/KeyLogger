@@ -206,12 +206,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\Lib.csproj">
-      <Project>{5d9e8cce-8b14-4921-abd0-4db0dd4f3825}</Project>
-      <Name>Lib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\iconminus.png" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +249,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib_NetStandart\Lib_NetStandart.csproj">
+      <Project>{0eabe5d9-3d86-4110-bba3-2dccddec1728}</Project>
+      <Name>Lib_NetStandart</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
