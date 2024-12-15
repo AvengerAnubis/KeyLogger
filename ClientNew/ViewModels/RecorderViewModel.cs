@@ -37,6 +37,8 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
             {
                 try
                 {
+                    if (string.IsNullOrEmpty(MacroName))
+                        throw new ErrorException("Название файла не может быть пустым!");
                     MacroRecorderOptions options = OptionsViewModel.OptionsStruct;
                     _macroRecorder.BeginRecording(options);
                     PlayButtonVisibility = Visibility.Hidden;

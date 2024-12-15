@@ -12,6 +12,7 @@ namespace SharpMacroPlayer.ClientNew.Logger
 	{
 		public static readonly string LogPath = @"logs\";
 		private string _logFile;
+		public static Logger? LoggerInstance { get; private set; }
 
 		public Logger()
 		{
@@ -21,12 +22,17 @@ namespace SharpMacroPlayer.ClientNew.Logger
 				Directory.CreateDirectory(dir);
 		}
 
-		public void LogException(LogableException ex) => LogMessage(ex.ToString());
-		public void LogMessage(string message)
+		public static void LogException(LogableException ex)
 		{
-			try 
+			LoggerInstance ??= new Logger();
+			LogMessage(ex.ToString());
+		}
+		public static void LogMessage(string message)
+		{
+            LoggerInstance ??= new Logger();
+            try 
 			{ 
-				File.AppendAllText(_logFile, $"{DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")}: {message}\n");
+				File.AppendAllText(LoggerInstance._logFile, $"{DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")}: {message}\n");
 			}
 			catch { }
 		}

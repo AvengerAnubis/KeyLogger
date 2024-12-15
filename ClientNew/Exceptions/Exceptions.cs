@@ -5,26 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpMacroPlayer.ClientNew.Logger;
 
+using static SharpMacroPlayer.ClientNew.Logger.Logger;
+
 namespace SharpMacroPlayer.ClientNew.Exceptions
 {
     [Serializable]
     public class LogableException : Exception
     {
         public string Tag { get; init; } = "unknown";
-        public static Logger.Logger? Logger { get; private set; }
 
         public LogableException() { }
         public LogableException(string message) : base(message)
         {
-            if (Logger == null)
-                Logger = new Logger.Logger();
-            Logger.LogException(this);
+            LogException(this);
         }
         public LogableException(string message, Exception inner) : base(message, inner)
         {
-            if (Logger == null)
-                Logger = new Logger.Logger();
-            Logger.LogException(this);
+            LogException(this);
         }
 
         public override string ToString() => $"{DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss")}: <{Tag.ToUpper()}> {Message};\n";
