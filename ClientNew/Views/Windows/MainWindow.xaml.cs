@@ -1,21 +1,7 @@
-﻿using SharpMacroPlayer.ClientNew.ViewModels;
-using SharpMacroPlayer.ClientNew.Views.Pages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Wpf.Ui;
+﻿using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using SharpMacroPlayer.ClientNew.ViewModels;
 
 namespace SharpMacroPlayer.ClientNew.Views.Windows
 {
@@ -54,7 +40,6 @@ namespace SharpMacroPlayer.ClientNew.Views.Windows
         {
             base.OnClosed(e);
 
-            // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
         }
     }

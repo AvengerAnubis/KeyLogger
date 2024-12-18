@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:SharpMacroPlayer.ClientNew.Views.Pages"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindow, IsDesignTimeCreatable=True}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="450" MinWidth="1000">
     <Grid>
         <ui:TitleBar x:Name="TitleBar" Title="{Binding ViewModel.Title}"></ui:TitleBar>
         <ui:NavigationView Padding="42,0,42,0"

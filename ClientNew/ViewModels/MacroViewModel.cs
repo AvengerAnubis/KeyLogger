@@ -29,8 +29,11 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
 		[ObservableProperty]
 		private MacroElement? _selectedMacroElement;
 
-		public string MacroFile { get; private set; } = string.Empty;
-		public string MacroName { get => Path.GetFileNameWithoutExtension(MacroFile); }
+		[ObservableProperty]
+		private string _macroFile = string.Empty;
+		partial void OnMacroFileChanging(string value) => OnPropertyChanging(nameof(MacroName));
+		partial void OnMacroFileChanged(string value) => OnPropertyChanged(nameof(MacroName));
+        public string MacroName { get => Path.GetFileNameWithoutExtension(MacroFile); }
 
 		private MacroElementEditorViewModel _editorViewModel;
 		private INavigationWindow _navigationView;
