@@ -1,27 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
-
-using System.Reflection.Emit;
-using System.Security.Permissions;
-using System.Windows;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.IO;
-
-#region юзинги для библиотеки
-using SharpMacroPlayer.Utils;
-using SharpMacroPlayer.Macros;
-#endregion
-
-#region статичные юзинги
-using static SharpMacroPlayer.Utils.WinAPIFunctions;
-using static SharpMacroPlayer.Utils.Constants;
-#endregion
 
 namespace SharpMacroPlayer.Macros.MacroElements
 {

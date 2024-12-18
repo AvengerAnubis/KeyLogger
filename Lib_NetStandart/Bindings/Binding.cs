@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Text.Json;
 
-#region юзинги для библиотеки
-using SharpMacroPlayer.Utils;
 using SharpMacroPlayer.Macros;
 using SharpMacroPlayer.Macros.MacroElements;
-#endregion
 
-#region статичные юзинги
-using static SharpMacroPlayer.Utils.WinAPIFunctions;
 using static SharpMacroPlayer.Utils.Constants;
-#endregion
 
 namespace SharpMacroPlayer.Bindings
 {
