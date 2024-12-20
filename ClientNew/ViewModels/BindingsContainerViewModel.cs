@@ -1,19 +1,14 @@
 ﻿using SharpMacroPlayer.Bindings;
 using SharpMacroPlayer.ClientNew.ViewModels.MacroElementsViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace SharpMacroPlayer.ClientNew.ViewModels
 {
-    public sealed partial class BindingViewModel : ObservableObject
+    public sealed partial class BindingViewModel() : ObservableObject
     {
         [ObservableProperty]
-        private VkCodeViewModel _keyCode;
+        private VkCodeViewModel _keyCode = new() { VkCode = "VK_W" };
 
         [ObservableProperty]
         private string _playCondition = "При нажатии";
@@ -25,15 +20,11 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
         }
 
         [ObservableProperty]
-        private string _macro = string.Empty;
-        public string[] Macros
-        {
-            get => MacroLoaderSaver.GetAllMacros().Select(e => Path.GetFileNameWithoutExtension(e)).ToArray();
-        }
+        private MacroFile _macro = new(string.Empty);
 
         public Binding Binding
         {
-            get => new(Enum.Parse<VK>(KeyCode.VkCode), Macro + ".json") 
+            get => new(Enum.Parse<VK>(KeyCode.VkCode), Macro.Filename) 
             { 
                 PlayCondition = PlayCondition switch
                 {
@@ -45,14 +36,18 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
             };
         }
     }
-    public sealed partial class BindingsContainerViewModel(InputHooker hooker) : ObservableObject
+    public sealed partial class BindingsContainerViewModel(InputHooker hooker, MacroListViewModel macroListViewModel) : ObservableObject
     {
+        [ObservableProperty]
+        private MacroListViewModel _macroListViewModel = macroListViewModel;
+        [ObservableProperty]
+        private VkCodeViewModel _stopVkCode = new() { VkCode = "VK_SPACE" };
         [ObservableProperty]
         private ObservableCollection<BindingViewModel> _bindings = new(BindingLoaderSaver.LoadBindings("default.json")
             .Bindings.Select(e => new BindingViewModel()
             {
                 KeyCode = new VkCodeViewModel() { VkCode = Enum.GetName(e.VkCode!.Value)! },
-                Macro = Path.GetFileNameWithoutExtension(e.MacroPath),
+                Macro = new(e.MacroPath),
                 PlayCondition = e.PlayCondition switch
                 {
                     BindingPlayCondition.ONKEYDOWN => "При нажатии",
@@ -72,7 +67,7 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
         private void Add() => Bindings.Add(new BindingViewModel() 
         {
             KeyCode = new VkCodeViewModel() { VkCode = "VK_W" },
-            Macro = MacroLoaderSaver.GetAllMacros()[0],
+            Macro = new(MacroLoaderSaver.GetAllMacros()[0]),
             PlayCondition = "При нажатии"
         });
         [RelayCommand]
@@ -92,6 +87,7 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
                 _player.Stop();
                 PlayButtonVisibility = Visibility.Visible;
                 StopButtonVisibility = Visibility.Hidden;
+                hooker.KeyInput -= StopKeyCheck;
             }
             else
             {
@@ -99,6 +95,21 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
                 _player.Start();
                 PlayButtonVisibility = Visibility.Hidden;
                 StopButtonVisibility = Visibility.Visible;
+                hooker.KeyInput += StopKeyCheck;
+            }
+        }
+
+        private void StopKeyCheck(object? sender, HookCallbackEventArgs args)
+        {
+            // Получаем структуру из памяти по указателю
+            KBDLLHOOKSTRUCT data = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(args.lParam);
+
+            if ((WM)args.wParam == WM.KEYDOWN || (WM)args.wParam == WM.SYSKEYDOWN)
+            {
+                if (data.VkCode == (ushort)Enum.Parse<VK>(StopVkCode.VkCode))
+                {
+                    PlayStop();
+                }
             }
         }
     }

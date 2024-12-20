@@ -33,7 +33,13 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <ui:TextBlock Margin="8" Text="Выполнить" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Medium"/>
-                        <ComboBox Grid.Column="1" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding Macros}" SelectedItem="{Binding Macro}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}, Path=ViewModel.MacroListViewModel.MacroFiles}" SelectedItem="{Binding Macro}" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=FileNameWithoutExtension}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <ComboBox Grid.Column="2" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding PlayConditions}" SelectedItem="{Binding PlayCondition}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="3" Margin="8" FontWeight="Medium" FontSize="20" ItemsSource="{Binding KeyCode.VkCodes}" SelectedItem="{Binding KeyCode.VkCode}" VerticalAlignment="Center"/>
                         <ui:Button  Height="40" Width="40" Grid.Column="4"
@@ -68,6 +74,16 @@
                     <ui:SymbolIcon Symbol="Stop24"/>
                 </ui:Button>
             </Grid>
+            <ui:Card Padding="4" Margin="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Кнопка остановки: " HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding ViewModel.StopVkCode.VkCodes}" SelectedItem="{Binding ViewModel.StopVkCode.VkCode}"/>
+                </Grid>
+            </ui:Card>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,17 +1,8 @@
 ﻿using SharpMacroPlayer.ClientNew.ViewModels.MacroElementsViewModels;
 using SharpMacroPlayer.ClientNew.Views.Pages;
-using SharpMacroPlayer.Macros.MacroElements;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace SharpMacroPlayer.ClientNew.ViewModels
 {
@@ -33,6 +24,7 @@ namespace SharpMacroPlayer.ClientNew.ViewModels
 		private string _macroFile = string.Empty;
 		partial void OnMacroFileChanging(string value) => OnPropertyChanging(nameof(MacroName));
 		partial void OnMacroFileChanged(string value) => OnPropertyChanged(nameof(MacroName));
+
         public string MacroName { get => Path.GetFileNameWithoutExtension(MacroFile); }
 
 		private MacroElementEditorViewModel _editorViewModel;

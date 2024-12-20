@@ -1,11 +1,4 @@
-﻿using SharpMacroPlayer.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharpMacroPlayer.ClientNew.ViewModels
+﻿namespace SharpMacroPlayer.ClientNew.ViewModels
 {
     public sealed partial class RecorderViewModel(InputHooker hooker, RecorderOptionsViewModel optionsViewModel, IServiceProvider serviceProvider) : ObservableObject
     {
